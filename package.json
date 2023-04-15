@@ -1,0 +1,14 @@
+{
+  "name": "mood-board-fetcher",
+  "version": "1.0.0",
+  "description": "creates a mood board from a personlized image database",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mysql": "^2.18.1"
+  }
+}
