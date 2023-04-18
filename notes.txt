@@ -1,0 +1,16 @@
+instructions from evan:
+- create image table in mysql
+- write a node script that can add / update / delete from image table
+- different functions per action
+
+const insert = (table, column, value) => {
+    connection.connect((err) => {
+    if (err) throw err;
+    console.log("Connected!");
+    const sql_statement = `INSTER INTO ${table} (${column}) VALUES ('${value}')` 
+    connection.query(sql_statement, (err, result) => {
+        if (err) throw err;
+        console.log("1 record inserted");
+    });
+})
+}
