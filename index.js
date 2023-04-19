@@ -53,17 +53,7 @@ const values = [
         location: 'test_location2'
     }
 ]
-// ('name', 'location')
-// insert(table, columns, values)
-const valuesString = (values) => {
-    const result = values.map(element => `('${element.name}', '${element.location}')`);
-    return result
-}
 
-
-// console.log(columns.join(', '))
-// console.log(valuesString(values))
-// console.log(values[0].name)
 insert('image', columns, values)
 
 // update img_id to auto-increment
