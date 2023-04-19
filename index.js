@@ -27,11 +27,14 @@ const connection = mysql.createConnection({
 const insert = (table, columns, values) => {
     connection.connect((err) => {
         if (err) throw err;
+        const values_new = values.map(
+            element => `('${element.name}', '${element.location}')`
+            );
         console.log("Connected!");
-        const sql_statement = `INSTER INTO ${table} (${columns}) VALUES ('${values}')`
+        const sql_statement = `INSERT INTO ${table} (${columns.join(', ')}) VALUES ${values_new}`
         connection.query(sql_statement, (err, result) => {
             if (err) throw err;
-            console.log("1 record inserted");
+            console.log(`${values.length}record(s) inserted`);
         });
     })
 }
@@ -41,20 +44,38 @@ const columns = [
     'img_location'
 ]
 const values = [
-    'test_name.jpg',
-    'some/test/location'
-]
-// insert(table, columns, values)
-
-connection.connect((err) => {
-    if (err) {
-        throw err;
+    {
+        name: 'test_name.jpg',
+        location: 'some/test/location'
+    },
+    {
+        name: 'test_name2.jpg',
+        location: 'test_location2'
     }
-    connection.query('ALTER TABLE image MODIFY img_id INT NOT NULL AUTO_INCREMENT',(err, result) => {
-        if (err) throw err;
-        console.log("img_id column now auto-increments");
-    });
-});
+]
+// ('name', 'location')
+// insert(table, columns, values)
+const valuesString = (values) => {
+    const result = values.map(element => `('${element.name}', '${element.location}')`);
+    return result
+}
+
+
+// console.log(columns.join(', '))
+// console.log(valuesString(values))
+// console.log(values[0].name)
+insert('image', columns, values)
+
+// update img_id to auto-increment
+// connection.connect((err) => {
+//     if (err) {
+//         throw err;
+//     }
+//     connection.query('ALTER TABLE image MODIFY img_id INT NOT NULL AUTO_INCREMENT',(err, result) => {
+//         if (err) throw err;
+//         console.log("img_id column now auto-increments");
+//     });
+// });
 
 // connection.end((err) => {
 //     if (err) throw err;
