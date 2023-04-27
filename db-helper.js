@@ -49,7 +49,7 @@ const columns = [
     'img_name',
     'img_location'
 ]
-const img_values = [
+const imgValues = [
     {
         name: 'test_name.jpg',
         location: 'some/test/location'
@@ -85,3 +85,5 @@ const tables = [
 //     if (err) throw err;
 //     console.log('Connection ended. Goodbye!');
 // });
+
+module.exports = {insert}
