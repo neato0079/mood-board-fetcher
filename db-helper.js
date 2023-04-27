@@ -51,11 +51,11 @@ const columns = [
 ]
 const imgValues = [
     {
-        name: 'test_name.jpg',
+        name: 'test_name_unique3.jpg',
         location: 'some/test/location'
     },
     {
-        name: 'test_name2.jpg',
+        name: 'test_name_unique2.jpg',
         location: 'test_location2'
     }
 ]
@@ -68,7 +68,10 @@ const tables = [
  'key_word'   
 ]
 
-// insert('image', columns, values)
+insert('image', columns, imgValues) // BECAREFUL OF DUPLICATE ENTRIES. WILL ERROR OUT
+// THIS WAS ADDED TO PREVENT DUPLICATES. NEED TO FIND A WAY TO HANDLE ERRORS NOW
+// ALTER TABLE image
+// ADD CONSTRAINT unique_location UNIQUE (img_name, img_location);
 
 // update img_id to auto-increment
 // connection.connect((err) => {
