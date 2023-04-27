@@ -24,6 +24,7 @@ const connection = mysql.createConnection({
 //     });
 // });
 
+// HELPERS:
 const insert = (table, columns, values) => {
     connection.connect((err) => {
         if (err) throw err;
@@ -39,11 +40,16 @@ const insert = (table, columns, values) => {
     })
 }
 
+const search = (user_input) => {
+    // user input is taken from the front end and passed into here
+    // returns img file path
+}
+
 const columns = [
     'img_name',
     'img_location'
 ]
-const values = [
+const img_values = [
     {
         name: 'test_name.jpg',
         location: 'some/test/location'
@@ -54,7 +60,15 @@ const values = [
     }
 ]
 
-insert('image', columns, values)
+const tables = [
+ 'artist',
+ 'genre',
+ 'image',
+ 'ip',
+ 'key_word'   
+]
+
+// insert('image', columns, values)
 
 // update img_id to auto-increment
 // connection.connect((err) => {
