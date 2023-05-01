@@ -18,3 +18,20 @@ for (artistName of artistNames) {
 // create a function that inserts all images from art-refs/ into the db
 // this funciton should also insert artist names into the artist table respective to the artist folder in art-refs/
 
+```
+(root of art library) => return {
+    root path: root path,
+    subdirectory1: filename.jpg,
+    subdirectory1: filename2.jpg,
+    subdirectory2: filename.jpg,
+}
+(art library object) => {
+    rootpath = artLibraryObject[0]
+    for e in ALO{
+        if ALO[e] != rootpath{
+            insert(e, table)
+            insert(ALO[e], table)
+        }
+    }
+}
+```
