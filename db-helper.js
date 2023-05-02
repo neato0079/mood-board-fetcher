@@ -68,7 +68,7 @@ const tables = [
  'key_word'   
 ]
 
-insert('image', columns, imgValues) // BECAREFUL OF DUPLICATE ENTRIES. WILL ERROR OUT
+// insert('image', columns, imgValues) // BECAREFUL OF DUPLICATE ENTRIES. WILL ERROR OUT
 // THIS WAS ADDED TO PREVENT DUPLICATES. NEED TO FIND A WAY TO HANDLE ERRORS NOW
 // ALTER TABLE image
 // ADD CONSTRAINT unique_location UNIQUE (img_name, img_location);
