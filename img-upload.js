@@ -5,20 +5,22 @@ const artLib = '/Users/mattbot/Pictures/art-ref/'
 const artistNames = fs.readdirSync(artLib)
 // this removes '.DS_store' from the array. idk what that even is
 artistNames.shift()
-console.log(artistNames)
-for (artistName of artistNames) {
-    // console.log(artistName)
-    const artist_folder = fs.readdirSync(artLib + artistName)
-    const imgFilePaths = artist_folder.map(fileName => artLib + artistName + '/' + fileName)
-    imgFilePaths.shift()
-    console.log(imgFilePaths)
+// console.log(artistNames)
+const testfunc = () => {
+    for (artistName of artistNames) {
+        // console.log(artistName)
+        const artist_folder = fs.readdirSync(artLib + artistName)
+        const imgFilePaths = artist_folder.map(fileName => artLib + artistName + '/' + fileName)
+        imgFilePaths.shift()
+        console.log(imgFilePaths)
+    }
 }
 // create a function that returns all files in artist folders
 // console.log(imgFilePaths)
 // create a function that inserts all images from art-refs/ into the db
 // this funciton should also insert artist names into the artist table respective to the artist folder in art-refs/
 
-```
+/*
 (root of art library) => return {
     root path: root path,
     subdirectory1: filename.jpg,
@@ -29,9 +31,31 @@ for (artistName of artistNames) {
     rootpath = artLibraryObject[0]
     for e in ALO{
         if ALO[e] != rootpath{
-            insert(e, table)
-            insert(ALO[e], table)
+            inster(rootpath+e, img_table)
+            insert(e, artist_table)
+            insert(ALO[e], img_table)
         }
     }
 }
-```
+*/
+
+const testArtLib = '/Users/mattbot/Pictures/test/'
+
+const createArtLibraryObj = (libRootPath) => {
+    artLibraryObj = { libRootPath: libRootPath };
+    const artistNames = fs.readdirSync(libRootPath);
+    // artistNames.shift() // removes .DSstore
+    for (const artistName of artistNames) {
+        const artistImages = fs.readdirSync(libRootPath + artistName);
+        artLibraryObj[artistName] = artistImages
+    }
+
+    // artistNames.forEach((artistName) => {
+    //     const artistImages = fs.readdirSync(libRootPath + artistName);
+    //     artLibraryObj[artistName] = artistImages
+    // })
+    // read up on which kind of iteration to use: https://thecodebarbarian.com/for-vs-for-each-vs-for-in-vs-for-of-in-javascript.html
+    return artLibraryObj
+};
+
+console.log(createArtLibraryObj(testArtLib))
