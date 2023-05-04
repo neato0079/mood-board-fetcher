@@ -1,4 +1,6 @@
+const DBHelper = require('./db-helper.js')
 const fs = require('fs');
+// const { insert } = require('./db-helper');
 
 // create a function that returns all folders in art-refs/
 const artLib = '/Users/mattbot/Pictures/art-ref/'
@@ -39,7 +41,7 @@ const testfunc = () => {
 }
 */
 
-const testArtLib = '/Users/mattbot/Pictures/test/'
+const testLibPath = '/Users/mattbot/Pictures/test/'
 
 const createArtLibraryObj = (libRootPath) => {
     artLibraryObj = { libRootPath: libRootPath };
@@ -58,4 +60,22 @@ const createArtLibraryObj = (libRootPath) => {
     return artLibraryObj
 };
 
-console.log(createArtLibraryObj(testArtLib))
+const testArtLib = createArtLibraryObj(testLibPath)
+
+const insertEntireArtLib = (library) => {
+    for (const artist in library) {
+        if (artist != 'libRootPath') {
+            const artistImages = library[artist]
+            for (const img of artistImages) {
+                DBHelper.insert('test_table1', 'file_loc', library['libRootPath'] + artist)
+                DBHelper.insert('test_table1', 'img_name', img)
+                DBHelper.insert('test_genre_table', 'test_genre', artist)
+            }
+        }
+    }
+
+}
+
+// console.log(testArtLib)
+// console.log(testArtLib['libRootPath'])
+insertEntireArtLib(testArtLib)
