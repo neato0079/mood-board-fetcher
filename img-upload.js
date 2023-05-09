@@ -1,3 +1,4 @@
+const { arch } = require('os');
 const DBHelper = require('./db-helper.js')
 const fs = require('fs');
 // const { insert } = require('./db-helper');
@@ -46,7 +47,9 @@ const testLibPath = '/Users/mattbot/Pictures/test/'
 const createArtLibraryObj = (libRootPath) => {
     artLibraryObj = { libRootPath: libRootPath };
     const artistNames = fs.readdirSync(libRootPath);
-    // artistNames.shift() // removes .DSstore
+    if (artistNames[0] == '.DS_Store'){
+        artistNames.shift() // removes .DSstore
+    }
     for (const artistName of artistNames) {
         const artistImages = fs.readdirSync(libRootPath + artistName);
         artLibraryObj[artistName] = artistImages
@@ -63,19 +66,27 @@ const createArtLibraryObj = (libRootPath) => {
 const testArtLib = createArtLibraryObj(testLibPath)
 
 const insertEntireArtLib = (library) => {
-    for (const artist in library) {
-        if (artist != 'libRootPath') {
-            const artistImages = library[artist]
-            for (const img of artistImages) {
-                DBHelper.insert('test_table1', 'file_loc', library['libRootPath'] + artist)
-                DBHelper.insert('test_table1', 'img_name', img)
-                DBHelper.insert('test_genre_table', 'test_genre', artist)
+    DBHelper.connection.connect((err) => {
+        if (err) throw err;
+        for (const artist in library) {
+            if (artist != 'libRootPath') {
+                const artistImages = library[artist]
+                for (const img of artistImages) {
+                    if(img == '.DS_Store'){
+                        continue
+                    }
+                    const path = library['libRootPath'] + artist
+                    // DBHelper.insertWithoutConnect('test_img', 'file_loc', path)
+                    // DBHelper.insertWithoutConnect('test_img', 'img_name', img)
+                    // DBHelper.insertWithoutConnect('test_artist', 'artist_name', artist)
+                    DBHelper.insertBaseData(path, artist, img)
+                }
             }
         }
-    }
-
+    });
 }
 
+const prodArtLib = createArtLibraryObj('/Users/mattbot/Pictures/art-ref/')
 // console.log(testArtLib)
 // console.log(testArtLib['libRootPath'])
-insertEntireArtLib(testArtLib)
+insertEntireArtLib(prodArtLib)
