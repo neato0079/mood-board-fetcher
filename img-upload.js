@@ -1,6 +1,7 @@
 const { arch } = require('os');
 const DBHelper = require('./db-helper.js')
 const fs = require('fs');
+const { connect } = require('http2');
 // const { insert } = require('./db-helper');
 
 // create a function that returns all folders in art-refs/
@@ -47,7 +48,7 @@ const testLibPath = '/Users/mattbot/Pictures/test/'
 const createArtLibraryObj = (libRootPath) => {
     artLibraryObj = { libRootPath: libRootPath };
     const artistNames = fs.readdirSync(libRootPath);
-    if (artistNames[0] == '.DS_Store'){
+    if (artistNames[0] == '.DS_Store') {
         artistNames.shift() // removes .DSstore
     }
     for (const artistName of artistNames) {
@@ -72,7 +73,7 @@ const insertEntireArtLib = (library) => {
             if (artist != 'libRootPath') {
                 const artistImages = library[artist]
                 for (const img of artistImages) {
-                    if(img == '.DS_Store'){
+                    if (img == '.DS_Store') {
                         continue
                     }
                     const path = library['libRootPath'] + artist
@@ -86,7 +87,28 @@ const insertEntireArtLib = (library) => {
     });
 }
 
-const prodArtLib = createArtLibraryObj('/Users/mattbot/Pictures/art-ref/')
+// const prodArtLib = createArtLibraryObj('/Users/mattbot/Pictures/art-ref/')
 // console.log(testArtLib)
 // console.log(testArtLib['libRootPath'])
-insertEntireArtLib(prodArtLib)
+// insertEntireArtLib(prodArtLib)
+
+const createAssociationImgWithArtist = (library) => {
+    DBHelper.connection.connect((err) => {
+        if (err) throw err;
+        for (const artist in library) {
+            if (artist != 'libRootPath') {
+                const artistImages = library[artist]
+                for (const img of artistImages) {
+                    if (img == '.DS_Store') {
+                        continue
+                    }
+                    DBHelper.connection.query(`INSERT INTO test_ass SET image_id = (SELECT id FROM test_img WHERE img_name = '${img}'), artist_id = (SELECT id FROM test_artist WHERE artist_name = '${artist}');`)
+                }
+            }
+        }
+    });
+}
+
+const prodArtLib = createArtLibraryObj('/Users/mattbot/Pictures/art-ref/')
+createAssociationImgWithArtist(prodArtLib)
+console.log('poop')
