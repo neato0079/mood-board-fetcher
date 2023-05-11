@@ -1,85 +1,98 @@
 require('dotenv').config()
-const mysql = require('mysql');
+const fs = require('fs');
+const mysql = require('mysql2');
 const {
     ART_REF_DB_PASS,
     USER
 } = process.env;
 
-const connection = mysql.createConnection({
+const pool = mysql.createPool({
     host: '127.0.0.1',
     user: 'root',
+    password: '',
     database: 'art_ref_db'
-    // password: ART_REF_DB_PASS
-    // port: 3306
-});
+}).promise()
+
+const test = async () => {
+    const [result] = await pool.query("SELECT * FROM test_img")
+    console.log(result)
+}
+// test()
 
 // HELPERS:
-const insert = (table, columns, values) => {
-    connection.connect((err) => {
-        if (err) throw err;
-        const values_new = values.map(
-            element => `('${element.name}', '${element.location}')`
-        );
-        console.log("Connected!");
-        const sql_statement = `INSERT INTO ${table} (${columns.join(', ')}) VALUES ${values_new}`
-        connection.query(sql_statement, (err, result) => {
-            if (err) throw err;
-            console.log(`${values.length}record(s) inserted`);
-        });
-    })
+const insert = async (table, column, value) => {
+    await pool.query(`
+    INSERT INTO ${table} (${column}) 
+    VALUES ("${value}");
+    `)
 }
 
-const insertWithoutConnect = (table, column, value) => {
-    // const values_new = values.map(
-    //     element => `('${element.name}', '${element.location}')`
-    // );
-    console.log("Connected!");
-    const sql_statement = `INSERT INTO ${table} (${column}) VALUES ("${value}");`
-    connection.query(sql_statement, (err, result) => {
-        if (err) throw err;
-        console.log(`record(s) inserted`);
-    });
-}
+// insert('test_img','img_name','test.jgp')
 
 // Base data includes the following: image name, image location, and artist name
-// For example the image with path 'usr/pictures/John_Art/painting.jpg' will have the following data:
+// For example the image with path 'usr/pictures/John_Art/painting.jpg' will have the following "base data":
 // image name: painting.jpg
 // image location: usr/pictures/John_Art/
 // artist name: John Art
-const insertBaseData = (path, aritst, img) => { 
-    // connection.query(`
-    // START TRANSACTION;
-    // INSTERT INTO test_img ('img_name', 'file_loc')
-    // VALUES ('${img}', '${path}');
-    // COMMIT;`,(err) => {
-    //     if (err) throw err;
-    //     console.log(`record(s) inserted`);
-    // })
-    connection.query(`INSERT INTO test_img (img_name, file_loc) VALUES ('${img}', '${path}');`,(err) => {
-        if (err) throw err;
-        console.log(`record(s) inserted`);
-    })
-
-    connection.query(`INSERT INTO test_artist (artist_name) SELECT ('${aritst}') WHERE NOT EXISTS (SELECT artist_name FROM test_artist WHERE artist_name='${aritst}');`, (err) => {
-        if (err) throw err;
-    })
+const insertBaseData = async(path, aritst, img) => {
+    // inserts into img table
+    await pool.query(`
+    INSERT INTO test_img (img_name, file_loc) 
+    VALUES ('${img}', '${path}');
+    `)
+    // inserts into artist table only if the respective artist is not already in the table
+    await pool.query(`
+    INSERT INTO test_artist (artist_name) 
+    SELECT ('${aritst}') 
+    WHERE NOT EXISTS (SELECT artist_name FROM test_artist WHERE artist_name='${aritst}');
+    `)
 }
 
 // insertBaseDataTransaction('usr/pics/John_Art', 'John Art', 'painting.jpg')
 
-const search = (user_input) => {
-    // user input is taken from the front end and passed into here
-    // returns img file path
-}
+const createArtLibraryObj = async (libRootPath) => {
+    artLibraryObj = { libRootPath: libRootPath };
+    const artistNames = fs.readdirSync(libRootPath);
+    if (artistNames[0] == '.DS_Store') {
+        artistNames.shift() // removes .DSstore
+    }
+    for (const artistName of artistNames) {
+        const artistImages = fs.readdirSync(libRootPath + artistName);
+        artLibraryObj[artistName] = artistImages
+    }
+    return artLibraryObj
+};
 
+const insertEntireArtLib = async(library) => {
+    console.log('inserting data....')
+    for (const artist in library) {
+        if (artist != 'libRootPath') {
+            const artistImages = library[artist]
+            for (const img of artistImages) {
+                if (img == '.DS_Store') {
+                    continue
+                }
+                const path = library['libRootPath'] + artist
+                await insertBaseData(path, artist, img)
+                console.log('inserted data!')
+            }
+        }
+    }
+}
 // insert('image', columns, imgValues) // BECAREFUL OF DUPLICATE ENTRIES. WILL ERROR OUT
 // THIS WAS ADDED TO PREVENT DUPLICATES. NEED TO FIND A WAY TO HANDLE ERRORS NOW
 // ALTER TABLE image
 // ADD CONSTRAINT unique_location UNIQUE (img_name, img_location);
 
-module.exports = { 
+const main = async () => {
+    const prodArtLib = await createArtLibraryObj('/Users/mattbot/Pictures/art-ref/')
+    // console.log(await prodArtLib)
+    await insertEntireArtLib(prodArtLib)
+}
+
+main()
+module.exports = {
     insert,
-    insertWithoutConnect,
     insertBaseData,
-    connection 
+    pool
 }
