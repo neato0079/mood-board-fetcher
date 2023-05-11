@@ -1,15 +1,8 @@
-const { arch } = require('os');
 const DBHelper = require('./db-helper.js')
 const fs = require('fs');
-const { connect } = require('http2');
 
 const artLib = '/Users/mattbot/Pictures/art-ref/'
 const testLibPath = '/Users/mattbot/Pictures/test/'
-
-// create a function that returns all files in artist folders
-// console.log(imgFilePaths)
-// create a function that inserts all images from art-refs/ into the db
-// this funciton should also insert artist names into the artist table respective to the artist folder in art-refs/
 
 const createArtLibraryObj = (libRootPath) => {
     artLibraryObj = { libRootPath: libRootPath };

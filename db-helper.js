@@ -13,17 +13,6 @@ const connection = mysql.createConnection({
     // port: 3306
 });
 
-// CREATE IMAGE TABLE
-// connection.connect((err) => {
-//     if (err) throw err;
-//     console.log("Connected!");
-//     sql_statement = 'CREATE TABLE image (img_id INT NOT NULL PRIMARY KEY, img_name VARCHAR(255), img_location VARCHAR(255) NOT NUll)'
-//     connection.query(sql_statement, (err, result) => {
-//         if (err) throw err;
-//         console.log(`Image table created\n${result}`)
-//     });
-// });
-
 // HELPERS:
 const insert = (table, columns, values) => {
     connection.connect((err) => {
@@ -83,49 +72,10 @@ const search = (user_input) => {
     // returns img file path
 }
 
-const columns = [
-    'img_name',
-    'img_location'
-]
-const imgValues = [
-    {
-        name: 'test_name_unique12312312.jpg',
-        location: 'some/test/location'
-    },
-    {
-        name: 'test_name_unique2.jpg',
-        location: 'test_location12331'
-    }
-]
-
-const tables = [
-    'artist',
-    'genre',
-    'image',
-    'ip',
-    'key_word'
-]
-
 // insert('image', columns, imgValues) // BECAREFUL OF DUPLICATE ENTRIES. WILL ERROR OUT
 // THIS WAS ADDED TO PREVENT DUPLICATES. NEED TO FIND A WAY TO HANDLE ERRORS NOW
 // ALTER TABLE image
 // ADD CONSTRAINT unique_location UNIQUE (img_name, img_location);
-
-// update img_id to auto-increment
-// connection.connect((err) => {
-//     if (err) {
-//         throw err;
-//     }
-//     connection.query('ALTER TABLE image MODIFY img_id INT NOT NULL AUTO_INCREMENT',(err, result) => {
-//         if (err) throw err;
-//         console.log("img_id column now auto-increments");
-//     });
-// });
-
-// connection.end((err) => {
-//     if (err) throw err;
-//     console.log('Connection ended. Goodbye!');
-// });
 
 module.exports = { 
     insert,
