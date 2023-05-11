@@ -53,13 +53,14 @@ const createAssociationImgWithArtist = (library) => {
                     if (img == '.DS_Store') {
                         continue
                     }
-                    DBHelper.connection.query(`INSERT INTO test_ass SET image_id = (SELECT id FROM test_img WHERE img_name = '${img}'), artist_id = (SELECT id FROM test_artist WHERE artist_name = '${artist}');`)
+                    DBHelper.pool.query(`INSERT INTO test_ass SET image_id = (SELECT id FROM test_img WHERE img_name = '${img}'), artist_id = (SELECT id FROM test_artist WHERE artist_name = '${artist}');`)
                 }
             }
         }
     });
 }
 
-// const prodArtLib = createArtLibraryObj('/Users/mattbot/Pictures/art-ref/')
-// createAssociationImgWithArtist(prodArtLib)
-// console.log('poop')
+const prodArtLib = createArtLibraryObj('/Users/mattbot/Pictures/art-ref/')
+insertEntireArtLib(prodArtLib)
+createAssociationImgWithArtist(prodArtLib)
+console.log('poop')
