@@ -93,6 +93,14 @@ const createAssociationImgWithArtist = async (library) => {
         }
     }
 }
+
+const update = async(table, column, value) => {
+
+}
+
+const removeValue = async(table, column, value) => {
+
+}
 // insert('image', columns, imgValues) // BECAREFUL OF DUPLICATE ENTRIES. WILL ERROR OUT
 // THIS WAS ADDED TO PREVENT DUPLICATES. NEED TO FIND A WAY TO HANDLE ERRORS NOW
 // ALTER TABLE image
