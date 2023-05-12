@@ -88,7 +88,17 @@ const createAssociationImgWithArtist = async (library) => {
                 if (img == '.DS_Store') {
                     continue
                 }
-                await pool.query(`INSERT INTO test_ass SET image_id = (SELECT id FROM test_img WHERE img_name = '${img}'), artist_id = (SELECT id FROM test_artist WHERE artist_name = '${artist}');`)
+                await pool.query(`
+                INSERT INTO test_ass 
+                SET image_id = (
+                        SELECT id FROM test_img 
+                        WHERE img_name = '${img}'
+                    ), 
+                    artist_id = (
+                        SELECT id FROM test_artist 
+                        WHERE artist_name = '${artist}'
+                    );`
+                )
             }
         }
     }
@@ -109,7 +119,8 @@ const removeValue = async(table, column, value) => {
 const main = async () => {
     const prodArtLib = await createArtLibraryObj('/Users/mattbot/Pictures/art-ref/')
     // console.log(await prodArtLib)
-    await insertEntireArtLib(prodArtLib)
+    // await insertEntireArtLib(prodArtLib)
+    await createAssociationImgWithArtist(prodArtLib)
 }
 
 main()
