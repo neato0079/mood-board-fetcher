@@ -34,7 +34,7 @@ const insert = async (table, column, value) => {
 // image name: painting.jpg
 // image location: usr/pictures/John_Art/
 // artist name: John Art
-const insertBaseData = async(path, aritst, img) => {
+const insertBaseData = async (path, aritst, img) => {
     // inserts into img table
     await pool.query(`
     INSERT INTO test_img (img_name, file_loc) 
@@ -63,7 +63,7 @@ const createArtLibraryObj = async (libRootPath) => {
     return artLibraryObj
 };
 
-const insertEntireArtLib = async(library) => {
+const insertEntireArtLib = async (library) => {
     console.log('inserting data....')
     for (const artist in library) {
         if (artist != 'libRootPath') {
@@ -75,6 +75,20 @@ const insertEntireArtLib = async(library) => {
                 const path = library['libRootPath'] + artist
                 await insertBaseData(path, artist, img)
                 console.log('inserted data!')
+            }
+        }
+    }
+}
+
+const createAssociationImgWithArtist = async (library) => {
+    for (const artist in library) {
+        if (artist != 'libRootPath') {
+            const artistImages = library[artist]
+            for (const img of artistImages) {
+                if (img == '.DS_Store') {
+                    continue
+                }
+                await pool.query(`INSERT INTO test_ass SET image_id = (SELECT id FROM test_img WHERE img_name = '${img}'), artist_id = (SELECT id FROM test_artist WHERE artist_name = '${artist}');`)
             }
         }
     }
