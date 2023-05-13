@@ -141,5 +141,10 @@ main()
 module.exports = {
     insert,
     insertBaseData,
-    pool
+    createArtLibraryObj,
+    insertEntireArtLib,
+    createAssociationImgWithArtist,
+    create,
+    removeValue,
+    removeImage
 }
