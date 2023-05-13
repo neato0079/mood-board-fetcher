@@ -137,7 +137,7 @@ const main = async () => {
     await createAssociationImgWithArtist(prodArtLib)
 }
 
-main()
+
 module.exports = {
     insert,
     insertBaseData,
