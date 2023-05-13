@@ -111,6 +111,16 @@ const update = async(table, column, value) => {
 const removeValue = async(table, column, value) => {
 
 }
+
+const removeImage = async(img_id) => {
+    await pool.query(`
+    DELETE FROM image WHERE id = ${img_id};
+    DELETE FROM image_artist WHERE img_id = ${img_id};
+    DELETE FROM image_genre WHERE img_id = ${img_id};
+    DELETE FROM image_ip WHERE img_id = ${img_id};
+    DELETE FROM image_key_word WHERE img_id = ${img_id};
+    `)
+}
 // insert('image', columns, imgValues) // BECAREFUL OF DUPLICATE ENTRIES. WILL ERROR OUT
 // THIS WAS ADDED TO PREVENT DUPLICATES. NEED TO FIND A WAY TO HANDLE ERRORS NOW
 // ALTER TABLE image
