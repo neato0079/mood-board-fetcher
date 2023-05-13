@@ -104,7 +104,7 @@ const createAssociationImgWithArtist = async (library) => {
     }
 }
 
-const update = async(table, column, value) => {
+const create = async(table, column, value) => {
     await pool.query(`
     INSERT INTO ${table} WHERE ${column} = ?
     `, value)
