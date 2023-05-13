@@ -105,11 +105,15 @@ const createAssociationImgWithArtist = async (library) => {
 }
 
 const update = async(table, column, value) => {
-
+    await pool.query(`
+    INSERT INTO ${table} WHERE ${column} = ?
+    `, value)
 }
 
 const removeValue = async(table, column, value) => {
-
+    await pool.query(`
+    DELETE FROM ${table} WHERE ${column} = ${value}
+    `)
 }
 
 const removeImage = async(img_id) => {
