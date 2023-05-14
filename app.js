@@ -21,6 +21,12 @@ const main = async () => {
         res.send(await database.getImageData(id));
     });
 
+
+    app.use((err, req, res, next) => {
+        console.error(err.stack)
+        res.status(500).send('It broke...')
+    });
+
     app.listen(3000);
 
 
