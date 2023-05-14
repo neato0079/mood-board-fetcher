@@ -145,6 +145,7 @@ const getImageData = async(id) => {
     FROM image
     WHERE img_id = ${id}
     `)
+    // TODO: this only returns data from the main image table. get it to return data from the association tables as well. maybe thats what the JOIN keyword is for?
     return result[0][0]
 }
 
