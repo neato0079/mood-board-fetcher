@@ -75,12 +75,25 @@ const insertEntireArtLib = async (library) => {
                 const path = library['libRootPath'] + artist
                 await insertBaseData(path, artist, img)
                 console.log('inserted data!')
+
+                await pool.query(`
+                INSERT INTO test_ass 
+                SET image_id = (
+                        SELECT id FROM test_img 
+                        WHERE img_name = '${img}'
+                    ), 
+                    artist_id = (
+                        SELECT id FROM test_artist 
+                        WHERE artist_name = '${artist}'
+                    );
+                `)
+                console.log('created associations!')
             }
         }
     }
 }
 
-const createAssociationImgWithArtist = async (library) => {
+const createAssociationImgWithArtist = async (library, associationTable,) => {
     for (const artist in library) {
         if (artist != 'libRootPath') {
             const artistImages = library[artist]
@@ -89,7 +102,7 @@ const createAssociationImgWithArtist = async (library) => {
                     continue
                 }
                 await pool.query(`
-                INSERT INTO test_ass 
+                INSERT INTO ${associationTable} 
                 SET image_id = (
                         SELECT id FROM test_img 
                         WHERE img_name = '${img}'
@@ -125,18 +138,33 @@ const removeImage = async(img_id) => {
     DELETE FROM image_key_word WHERE img_id = ${img_id};
     `)
 }
+
+const getImageData = async(id) => {
+    const result = await pool.query(`
+    SELECT * 
+    FROM image
+    WHERE img_id = ${id}
+    `)
+    return result[0][0]
+}
+
+const main = async () => {
+    // const prodArtLib = await createArtLibraryObj('/Users/mattbot/Pictures/art-ref/')
+    // // console.log(await prodArtLib)
+    // // await insertEntireArtLib(prodArtLib)
+    // await createAssociationImgWithArtist(prodArtLib)
+    console.log(await getImageData(9))
+}
+
+main()
+// TODO:
+
 // insert('image', columns, imgValues) // BECAREFUL OF DUPLICATE ENTRIES. WILL ERROR OUT
 // THIS WAS ADDED TO PREVENT DUPLICATES. NEED TO FIND A WAY TO HANDLE ERRORS NOW
 // ALTER TABLE image
 // ADD CONSTRAINT unique_location UNIQUE (img_name, img_location);
 
-const main = async () => {
-    const prodArtLib = await createArtLibraryObj('/Users/mattbot/Pictures/art-ref/')
-    // console.log(await prodArtLib)
-    // await insertEntireArtLib(prodArtLib)
-    await createAssociationImgWithArtist(prodArtLib)
-}
-
+// install npm package nodemon. This tool restarts our server as soon as we make a change in any of our files, otherwise we need to restart the server manually after each file modification
 
 module.exports = {
     insert,
@@ -146,5 +174,6 @@ module.exports = {
     createAssociationImgWithArtist,
     create,
     removeValue,
-    removeImage
+    removeImage,
+    getImageData
 }
