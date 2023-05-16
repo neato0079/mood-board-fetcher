@@ -149,12 +149,18 @@ const getImageData = async(id) => {
     return result[0][0]
 }
 
+const getImageURL = async(id) => {
+    const imageData = await getImageData(id)
+    const imageURL = imageData.img_location + '/' + imageData.img_name
+    return imageURL
+}
+
 const main = async () => {
     // const prodArtLib = await createArtLibraryObj('/Users/mattbot/Pictures/art-ref/')
     // // console.log(await prodArtLib)
     // // await insertEntireArtLib(prodArtLib)
     // await createAssociationImgWithArtist(prodArtLib)
-    console.log(await getImageData(9))
+    console.log(await getImageURL(9))
 }
 
 main()
