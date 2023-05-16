@@ -149,7 +149,7 @@ const getImageData = async(id) => {
     return result[0][0]
 }
 
-const getImageURL = async(id) => {
+const getImagePath = async(id) => {
     const imageData = await getImageData(id)
     const imageURL = imageData.img_location + '/' + imageData.img_name
     return imageURL
@@ -160,7 +160,7 @@ const main = async () => {
     // // console.log(await prodArtLib)
     // // await insertEntireArtLib(prodArtLib)
     // await createAssociationImgWithArtist(prodArtLib)
-    console.log(await getImageURL(9))
+    console.log(await getImagePath(9))
 }
 
 main()
