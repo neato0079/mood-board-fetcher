@@ -3,7 +3,10 @@ const app = express();
 const database = require('./database')
 
 const main = async () => {
-    app.get('/asdf/:id', async (req, res) => {
+    app.use(express.static('public'))
+    app.use('/test', express.static('/Users/mattbot/Pictures/art-ref'));
+
+    app.get('/asdf/:id', async (req, res) => { //endpoint
         const id = req.params.id
         // res.send(`Hello wor!dadsjkflasjdh!!!!fslkdfgsdlk;fjg!!!!!!!!${id}`);
         res.send(`${id}`)
@@ -18,8 +21,21 @@ const main = async () => {
 
     app.get('/getImageData/:id', async (req, res) => {
         const id = req.params.id
-        res.send(await database.getImageData(id));
+        res.send(await database.getImageData(id)); 
     });
+
+    app.get('/checklink', async (req, res) => {
+        // create file path with js function that calls db
+        // pass that path to location
+        res.send('https://expressjs.com/en/api.html#res.location')
+        console.log('worked')
+    })
+
+    app.get('/gotoimage', async (req, res) => {
+        // res.send(database.testFunc())
+        res.send('aasldfkadklsfa')
+        res.send(database.getImagePath(9))
+    })
 
 
     app.use((err, req, res, next) => {

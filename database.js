@@ -11,6 +11,7 @@ const pool = mysql.createPool({
     user: 'root',
     password: '',
     database: 'art_ref_db'
+    // port 3306
 }).promise()
 
 const test = async () => {
@@ -152,7 +153,8 @@ const getImageData = async(id) => {
 const getImagePath = async(id) => {
     const imageData = await getImageData(id)
     const imageURL = imageData.img_location + '/' + imageData.img_name
-    return imageURL
+    console.log(imageURL)
+    // return imageURL
 }
 
 const main = async () => {
@@ -163,7 +165,7 @@ const main = async () => {
     console.log(await getImagePath(9))
 }
 
-main()
+// main()
 // TODO:
 
 // insert('image', columns, imgValues) // BECAREFUL OF DUPLICATE ENTRIES. WILL ERROR OUT
@@ -172,6 +174,9 @@ main()
 // ADD CONSTRAINT unique_location UNIQUE (img_name, img_location);
 
 // install npm package nodemon. This tool restarts our server as soon as we make a change in any of our files, otherwise we need to restart the server manually after each file modification
+const testFunc = () => {
+    console.log("Button clicked")
+}
 
 module.exports = {
     insert,
@@ -182,5 +187,7 @@ module.exports = {
     create,
     removeValue,
     removeImage,
-    getImageData
+    getImageData,
+    getImagePath,
+    testFunc
 }
