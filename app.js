@@ -4,7 +4,7 @@ const database = require('./database')
 
 const main = async () => {
     app.use(express.static('public'))
-    app.use('/test', express.static('/Users/mattbot/Pictures/art-ref'));
+    app.use('/pics', express.static('/Users/mattbot/Pictures/art-ref'));
 
     app.get('/asdf/:id', async (req, res) => { //endpoint
         const id = req.params.id
