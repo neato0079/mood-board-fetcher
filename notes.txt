@@ -20,6 +20,8 @@ goal:
 
 create an input text box that takes an arist name. this input will query the database and return a random image from the given artist.
     - figure out how to write a query that uses an association table
+    - might need to use requirejs to use modules https://requirejs.org/docs/start.html
+    - also maybe learn EJS
 
 
 things learned 5/18:
