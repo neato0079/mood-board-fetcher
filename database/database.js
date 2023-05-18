@@ -43,8 +43,8 @@ const insertBaseData = async (path, aritst, img) => {
     // inserts into img table
     await pool.query(`
     INSERT INTO test_img (img_name, file_loc) 
-    VALUES ('${img}', '${path}');
-    `)
+    VALUES ('${img}', '/${aritst}');
+    `)//                   ^^^^ CHANGE ARTIST TO PATH AND REMOVE THE '/' WHEN READY FOR FINAL BUILD
     // inserts into artist table only if the respective artist is not already in the table
     await pool.query(`
     INSERT INTO test_artist (artist_name) 
@@ -98,7 +98,7 @@ const insertEntireArtLib = async (library) => {
     }
 }
 
-const createAssociationImgWithArtist = async (library, associationTable,) => {
+const createAssociationImgWithArtist = async (library, associationTable) => {
     for (const artist in library) {
         if (artist != 'libRootPath') {
             const artistImages = library[artist]
@@ -161,15 +161,14 @@ const getImagePath = async(id) => {
     // return imageURL
 }
 
-const main = async () => {
-    // const prodArtLib = await createArtLibraryObj('/Users/mattbot/Pictures/art-ref/')
-    // // console.log(await prodArtLib)
-    // // await insertEntireArtLib(prodArtLib)
-    // await createAssociationImgWithArtist(prodArtLib)
-    console.log(await getImagePath(9))
+const fillDatabase = async () => {
+    const prodArtLib = await createArtLibraryObj('/Users/mattbot/Pictures/art-ref/')
+    // console.log(await prodArtLib)
+    await insertEntireArtLib(prodArtLib)
+    await createAssociationImgWithArtist(prodArtLib, 'test_ass')
 }
 
-// main()
+fillDatabase()
 // TODO:
 
 // insert('image', columns, imgValues) // BECAREFUL OF DUPLICATE ENTRIES. WILL ERROR OUT
