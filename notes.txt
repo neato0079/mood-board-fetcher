@@ -17,3 +17,6 @@ const insert = (table, column, value) => {
 
 goal:
 create a clickable button that displays an image on the same page.
+
+things learned 5/18:
+if a js file is using node modules, you can't use that file as a script in your html. html is exceuted by the browser while that file is requiring and using node packages, which the browser cannot do. keep js files out of your html if they use node packages. read here for more: https://stackoverflow.com/questions/39280820/call-a-node-js-function-inside-an-html-file
