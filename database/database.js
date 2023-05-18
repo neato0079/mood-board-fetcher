@@ -147,8 +147,8 @@ const removeImage = async(img_id) => {
 const getImageData = async(id) => {
     const result = await pool.query(`
     SELECT * 
-    FROM image
-    WHERE img_id = ${id}
+    FROM test_img
+    WHERE id = ${id}
     `)
     // TODO: this only returns data from the main image table. get it to return data from the association tables as well. maybe thats what the JOIN keyword is for?
     return result[0][0]
@@ -156,9 +156,9 @@ const getImageData = async(id) => {
 
 const getImagePath = async(id) => {
     const imageData = await getImageData(id)
-    const imageURL = imageData.img_location + '/' + imageData.img_name
-    console.log(imageURL)
-    // return imageURL
+    const imageURL = imageData.file_loc + '/' + imageData.img_name
+    // console.log(imageURL)
+    return imageURL
 }
 
 const fillDatabase = async () => {
@@ -168,7 +168,11 @@ const fillDatabase = async () => {
     await createAssociationImgWithArtist(prodArtLib, 'test_ass')
 }
 
-fillDatabase()
+const main =  async() => {
+    console.log(await getImageData(1))
+}
+// fillDatabase()
+// main()
 // TODO:
 
 // insert('image', columns, imgValues) // BECAREFUL OF DUPLICATE ENTRIES. WILL ERROR OUT
