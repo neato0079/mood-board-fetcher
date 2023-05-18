@@ -1,8 +1,11 @@
 const express = require('express');
+const database = require('./database/database');
+// import express from 'express'
+// import * as database from './public/database.js'
 const app = express();
-const database = require('./database')
 
 const main = async () => {
+    // app.use(express.static('database'))
     app.use(express.static('public'))
     app.use('/pics', express.static('/Users/mattbot/Pictures/art-ref'));
 
