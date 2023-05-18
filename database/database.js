@@ -1,6 +1,10 @@
 require('dotenv').config()
+// import * as dotenv from 'dotenv' 
+// dotenv.config()
 const fs = require('fs');
 const mysql = require('mysql2');
+// import {fs} from 'fs'
+// import {mysql} from 'mysql2'
 const {
     ART_REF_DB_PASS,
     USER
@@ -189,5 +193,4 @@ module.exports = {
     removeImage,
     getImageData,
     getImagePath,
-    testFunc
 }
