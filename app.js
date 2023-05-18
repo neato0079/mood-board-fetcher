@@ -31,19 +31,21 @@ const main = async () => {
         // create file path with js function that calls db
         // pass that path to location
         res.send('https://expressjs.com/en/api.html#res.location')
-        console.log('worked')
+        console.log('worked');
     })
 
     app.get('/gotoimage', async (req, res) => {
         // res.send(database.testFunc())
-        res.send('aasldfkadklsfa')
-        res.send(database.getImagePath(9))
+        const image_id = Math.floor(Math.random() * 25)
+        const imageURL = await database.getImagePath(image_id)
+        res.send(`<div style="height: 90vh; object-fit: contain;"><img style="max-width: 100%; max-height: 100%;" src="pics/${imageURL}"></div>`)
+        // res.redirect(`/pics/${imageURL}`)
     })
 
 
     app.use((err, req, res, next) => {
         console.error(err.stack)
-        res.status(500).send('It broke...')
+        res.status(500).send('It broke...');
     });
 
     app.listen(3000);
@@ -53,3 +55,11 @@ const main = async () => {
 
 main()
 
+
+// const idk = async() => {
+//     const image_id = Math.floor(Math.random() * 25)
+//     const imageURL = await database.getImagePath(image_id)
+//     console.log(imageURL)
+// }
+
+// idk();
