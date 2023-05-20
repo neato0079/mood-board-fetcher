@@ -1,4 +1,13 @@
 #referenceImage {
     height: 70vh; 
     object-fit: contain;
+    text-align: center;
+}
+#getImageButton {
+    font-size: 16px;
+}
+
+#batts {
+    text-align: center;
+    padding: 20px;
 }

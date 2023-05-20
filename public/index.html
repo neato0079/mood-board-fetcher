@@ -5,15 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <!-- <script type = "text/javascript" src="test.js"></script>  -->
+    <script type = "text/javascript" src="./scripts/script.js"></script> 
     <link rel="stylesheet" type="text/css" href="styles.css" /> 
 </head>
 <body>
     <h1>Matt's Mood Board Fetcher</h1>
-    <input type=button onClick="wtf();" value='Test! console log'>
-    <input type=button onClick="location.href='/gotoimage'" value='Random Image From Database'>
-    <input type=button onClick="location.href='pics/assorted/001.jpg'" value='Get const Local Image'>
     <!-- <button onclick="wtf()">button tag</button> -->
+    <div id="batts">
+        <button id="getImageButton" onClick="location.href='/gotoimage'">Get Image</button>
+        <button onclick="show()">do somthing</button>
+    </div>
     <div id="referenceImage"><img style="max-width: 100%; max-height: 100%;" src="pics/assorted/001.jpg"></div>
+    <div id="referenceImage">show()</div>
 </body>
 </html>
