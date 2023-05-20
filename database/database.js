@@ -1,9 +1,11 @@
-require('dotenv').config()
-// import * as dotenv from 'dotenv' 
-// dotenv.config()
-const fs = require('fs');
-const mysql = require('mysql2');
+// require('dotenv').config()
+import * as dotenv from 'dotenv'
+dotenv.config()
+// const fs = require('fs');
+// const mysql = require('mysql2');
 // import {fs} from 'fs'
+import * as fs from 'fs';
+import * as mysql from 'mysql2';
 // import {mysql} from 'mysql2'
 const {
     ART_REF_DB_PASS,
@@ -122,19 +124,19 @@ const createAssociationImgWithArtist = async (library, associationTable) => {
     }
 }
 
-const create = async(table, column, value) => {
+const create = async (table, column, value) => {
     await pool.query(`
     INSERT INTO ${table} WHERE ${column} = ?
     `, value)
 }
 
-const removeValue = async(table, column, value) => {
+const removeValue = async (table, column, value) => {
     await pool.query(`
     DELETE FROM ${table} WHERE ${column} = ${value}
     `)
 }
 
-const removeImage = async(img_id) => {
+const removeImage = async (img_id) => {
     await pool.query(`
     DELETE FROM image WHERE id = ${img_id};
     DELETE FROM image_artist WHERE img_id = ${img_id};
@@ -144,7 +146,7 @@ const removeImage = async(img_id) => {
     `)
 }
 
-const getImageData = async(id) => {
+const getImageData = async (id) => {
     const result = await pool.query(`
     SELECT * 
     FROM test_img
@@ -154,7 +156,7 @@ const getImageData = async(id) => {
     return result[0][0]
 }
 
-const getImagePath = async(id) => {
+const getImagePath = async (id) => {
     const imageData = await getImageData(id)
     const imageURL = imageData.file_loc + '/' + imageData.img_name
     // console.log(imageURL)
@@ -168,7 +170,7 @@ const fillDatabase = async () => {
     await createAssociationImgWithArtist(prodArtLib, 'test_ass')
 }
 
-const main =  async() => {
+const main = async () => {
     console.log(await getImageData(1))
 }
 // fillDatabase()
@@ -184,8 +186,7 @@ const main =  async() => {
 const testFunc = () => {
     console.log("Button clicked")
 }
-
-module.exports = {
+export {
     insert,
     insertBaseData,
     createArtLibraryObj,
@@ -197,3 +198,15 @@ module.exports = {
     getImageData,
     getImagePath,
 }
+// module.exports = {
+//     insert,
+//     insertBaseData,
+//     createArtLibraryObj,
+//     insertEntireArtLib,
+//     createAssociationImgWithArtist,
+//     create,
+//     removeValue,
+//     removeImage,
+//     getImageData,
+//     getImagePath,
+// }
