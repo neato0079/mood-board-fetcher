@@ -1,7 +1,7 @@
-// const express = require('express');
-// const database = require('./database/database');
-import express from 'express'
-import * as database from './database/database.js'
+const express = require('express');
+const database = require('./database/database');
+// import express from 'express'
+// import * as database from './database/database.js'
 const app = express();
 
 const main = async () => {

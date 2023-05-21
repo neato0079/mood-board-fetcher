@@ -1,11 +1,11 @@
-// require('dotenv').config()
-import * as dotenv from 'dotenv'
-dotenv.config()
-// const fs = require('fs');
-// const mysql = require('mysql2');
+require('dotenv').config()
+// import * as dotenv from 'dotenv'
+// dotenv.config()
+const fs = require('fs');
+const mysql = require('mysql2');
 // import {fs} from 'fs'
-import * as fs from 'fs';
-import * as mysql from 'mysql2';
+// import * as fs from 'fs';
+// import * as mysql from 'mysql2';
 // import {mysql} from 'mysql2'
 const {
     ART_REF_DB_PASS,
@@ -186,19 +186,7 @@ const main = async () => {
 const testFunc = () => {
     console.log("Button clicked")
 }
-export {
-    insert,
-    insertBaseData,
-    createArtLibraryObj,
-    insertEntireArtLib,
-    createAssociationImgWithArtist,
-    create,
-    removeValue,
-    removeImage,
-    getImageData,
-    getImagePath,
-}
-// module.exports = {
+// export {
 //     insert,
 //     insertBaseData,
 //     createArtLibraryObj,
@@ -210,3 +198,15 @@ export {
 //     getImageData,
 //     getImagePath,
 // }
+module.exports = {
+    insert,
+    insertBaseData,
+    createArtLibraryObj,
+    insertEntireArtLib,
+    createAssociationImgWithArtist,
+    create,
+    removeValue,
+    removeImage,
+    getImageData,
+    getImagePath,
+}
