@@ -12,6 +12,10 @@ app.get('/', (req, res) => {
     res.render('index.ejs')
 })
 
+app.get('/search/:id', (req, res) =>{
+    res.render('test.ejs')
+})
+
 app.get('/deleteImage', async (req, res) => {
     res.send("This will trigger a deletion of a given image??????");
 });
