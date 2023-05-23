@@ -170,6 +170,26 @@ const fillDatabase = async () => {
     await createAssociationImgWithArtist(prodArtLib, 'test_ass')
 }
 
+const artistSearch = async (aritstName) => {
+    const result = await pool.query(`
+    SELECT test_img.img_name, test_img.file_loc, test_artist.artist_name
+    FROM test_artist, test_ass
+    JOIN test_img
+    ON test_img.id = test_ass.image_id 
+    WHERE test_artist.artist_name=? AND test_artist.id = test_ass.artist_id;
+    `, aritstName)
+    return result[0]
+}
+
+const getImagePathByArtist = async (artistName) => {
+    const imagesDataArray = await artistSearch(artistName)
+    const imageData = imagesDataArray[Math.floor(Math.random() * imagesDataArray.length)]
+    const fileLocationFixed = imageData.file_loc.replace(/ /g, '%20')
+    const imageURL = fileLocationFixed + '/' + imageData.img_name
+    // console.log(imageURL)
+    return imageURL
+}
+
 const main = async () => {
     console.log(await getImageData(1))
 }
@@ -209,4 +229,6 @@ module.exports = {
     removeImage,
     getImageData,
     getImagePath,
+    artistSearch,
+    getImagePathByArtist
 }
