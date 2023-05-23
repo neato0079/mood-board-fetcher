@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
 app.get('/search/:id', async(req, res) =>{
     const image_id = Math.floor(Math.random() * 25)
     const imageURL = await database.getImagePath(image_id)
-    res.render('test.ejs', {path: 'pics' + imageURL})
+    res.render('searchPage.ejs', {path: 'pics' + imageURL})
 })
 
 app.get('/deleteImage', async (req, res) => {
@@ -36,7 +36,7 @@ app.get('/gotoimage', async (req, res) => {
 app.get('/search_Artist_:artistName', async (req, res) => {
     const artistName = req.params.artistName
     const imageURL = await database.getImagePathByArtist(artistName)
-    res.render('test.ejs', {path: 'pics' + imageURL})
+    res.render('searchPage.ejs', {path: 'pics' + imageURL})
 })
 
 app.use((err, req, res, next) => { // This handles all errors
