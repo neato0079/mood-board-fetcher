@@ -31,7 +31,7 @@ searchForm.addEventListener("submit", function (e) {
   const formdata = new FormData(this);
   const input = formdata.get("artisttName");
 
-  alert(input);
+  window.location.href = `/search_Artist_${input}`;
 });
 
 
