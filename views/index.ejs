@@ -5,27 +5,32 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script type = "text/javascript" src="./scripts/script.js"></script> 
+    <!-- <script type = "text/javascript" src="./scripts/script.js"></script>  -->
     <link rel="stylesheet" type="text/css" href="styles.css" /> 
 </head>
 <body>
     <h1 id="title"><a href="/">Matt's Mood Board Fetcher</a></h1>
 
     <div class="batts">
+        <form class="artistSearch">
+            <input type="text" id="input" name="artisttName"/>
+            <button id="search">search</button>
+        </form>
 
-        <form action="" method="get" class="battsElement">
+
+        <!-- <form action="" method="get" class="battsElement">
             <div id="search">
-              <label for="name">Artist: </label>
-              <input type="text" name="artistName" id="artistName" required>
+              <label for="artistName">Artist: </label>
+              <input type="text" name="artistName" id="artistName">
             </div>
             <div id="search">
-              <label for="email">Keyword: </label>
+              <label for="Keyword">Keyword: </label>
               <input type="text" name="Keyword" id="Keyword">
             </div>
             <div id="searchdiv">
               <input type="submit" value="Search Images">
             </div>
-          </form>
+          </form> -->
         <div class="battsElement">
             <button id="random" onClick="location.href='/random'">Get Random Image</button>
 
@@ -35,5 +40,6 @@
     </div>
 
     <div id="referenceImage"><img style="max-width: 100%; max-height: 100%;" src="assets/Recent_Stuff.png"></div>
+    <script type = "text/javascript" src="./scripts/script.js"></script> 
 </body>
 </html>
