@@ -3,11 +3,33 @@
     object-fit: contain;
     text-align: center;
 }
-#getImageButton {
-    font-size: 16px;
+.batts {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 10px 0;
 }
 
-#batts {
+.battsElement{
     text-align: center;
-    padding: 20px;
+}
+#random {
+    height: auto;
+    width: auto;
+    font-size: 16px;
+    margin: 15px;
+    text-align: right;
+}
+
+
+#title {
+    text-align: center;
+}
+#searchForm{
+    text-align: center;
+}
+#search{
+    text-align: center;
 }

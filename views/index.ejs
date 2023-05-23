@@ -9,16 +9,31 @@
     <link rel="stylesheet" type="text/css" href="styles.css" /> 
 </head>
 <body>
-    <h1><a href="/">Matt's Mood Board Fetcher</a></h1>
-    <!-- <button onclick="wtf()">button tag</button> -->
-    <div id="batts">
-        <!-- <form>
-            <button type="submit" formaction="https://placekitten.com/">Click Me</button>
-          </form> -->
-        <button id="getImageButton" onClick="location.href='/random'">Get Image</button>
-        <button onclick="show()">do somthing</button>
+    <h1 id="title"><a href="/">Matt's Mood Board Fetcher</a></h1>
+
+    <div class="batts">
+
+        <form action="" method="get" class="battsElement">
+            <div id="search">
+              <label for="name">Artist: </label>
+              <input type="text" name="artistName" id="artistName" required>
+            </div>
+            <div id="search">
+              <label for="email">Keyword: </label>
+              <input type="text" name="Keyword" id="Keyword">
+            </div>
+            <div id="searchdiv">
+              <input type="submit" value="Search Images">
+            </div>
+          </form>
+        <div class="battsElement">
+            <button id="random" onClick="location.href='/random'">Get Random Image</button>
+
+        </div>
+
+        <!-- <button onclick="show()">do somthing</button> -->
     </div>
+
     <div id="referenceImage"><img style="max-width: 100%; max-height: 100%;" src="assets/Recent_Stuff.png"></div>
-    <div id="referenceImage">show()</div>
 </body>
 </html>
