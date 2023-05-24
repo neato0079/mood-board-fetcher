@@ -13,7 +13,8 @@ app.get('/', (req, res) => {
 })
 
 app.get('/random', async(req, res) =>{
-    const image_id = Math.floor(Math.random() * 25)
+    const image_id = Math.floor(Math.random() * 24) + 1
+    console.log(`IMAGE ID: ${image_id}`)
     const imageURL = await database.getImagePath(image_id)
     res.render('searchPage.ejs', {path: 'pics' + imageURL})
 })
