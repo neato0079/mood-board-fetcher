@@ -158,7 +158,8 @@ const getImageData = async (id) => {
 
 const getImagePath = async (id) => {
     const imageData = await getImageData(id)
-    const imageURL = imageData.file_loc + '/' + imageData.img_name
+    const fileLocationFixed = imageData.file_loc.replace(/ /g, '%20')
+    const imageURL = fileLocationFixed + '/' + imageData.img_name
     // console.log(imageURL)
     return imageURL
 }
