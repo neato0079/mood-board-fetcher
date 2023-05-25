@@ -158,7 +158,7 @@ const getImageData = async (id) => {
 
 const getImagePath = async (id) => {
     const imageData = await getImageData(id)
-    const fileLocationFixed = encodeURI(imageData.file_loc)
+    const fileLocationFixed = decodeURI(imageData.file_loc)
     const imageURL = fileLocationFixed + '/' + imageData.img_name
     // console.log(imageURL)
     return imageURL
@@ -171,24 +171,37 @@ const fillDatabase = async () => {
     await createAssociationImgWithArtist(prodArtLib, 'test_ass')
 }
 
-const artistSearch = async (aritstName) => {
+const artistSearch = async (artistNames) => {
+    // const namesList = [decodeURI(artistNames).split(',')]
+    const namesList = [artistNames.split(',')]
+    // const test = [['warashi', 'chenrong']]
     const result = await pool.query(`
     SELECT test_img.img_name, test_img.file_loc, test_artist.artist_name
     FROM test_artist, test_ass
     JOIN test_img
     ON test_img.id = test_ass.image_id 
-    WHERE test_artist.artist_name=? AND test_artist.id = test_ass.artist_id;
-    `, aritstName)
+    WHERE test_artist.artist_name IN (?) AND test_artist.id = test_ass.artist_id;
+    `, namesList) // the ? param is already passed as an array in mysql2 so we need the extra [] at line 176
     return result[0]
 }
 
-const getImagePathByArtist = async (artistName) => {
-    const imagesDataArray = await artistSearch(artistName)
-    const imageData = imagesDataArray[Math.floor(Math.random() * imagesDataArray.length)]
-    const fileLocationFixed = encodeURI(imageData.file_loc)
-    const imageURL = fileLocationFixed + '/' + imageData.img_name
-    // console.log(imageURL)
-    return imageURL
+const getImagePathByArtist = async (artistNames) => {
+    const imagesDataArray = await artistSearch(artistNames)
+    // const imageData = imagesDataArray[Math.floor(Math.random() * imagesDataArray.length)]
+    // const decodedImagesArray = Array.from(imagesDataArray, imageData => decodeURI(imageData.file_loc))
+    // const fileLocationFixed = decodeURI(imageData.file_loc)
+
+    // for (let imageData of imagesDataArray){
+    //     imageData.file_loc = decodeURI(imageData.file_loc)
+    // }
+
+    const paths = imagesDataArray.map( imageData => imageData.file_loc + '/' + imageData.img_name)
+
+    // const imageURL = fileLocationFixed + '/' + imageData.img_name
+
+    return paths
+    
+    // return decodedImagesArray
 }
 
 const main = async () => {
