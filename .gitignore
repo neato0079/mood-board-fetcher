@@ -1,3 +1,5 @@
 .env
 node_modules/
 testing.js
+views/test.ejs
+public/scripts/testscript.js
