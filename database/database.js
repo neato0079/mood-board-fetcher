@@ -158,7 +158,7 @@ const getImageData = async (id) => {
 
 const getImagePath = async (id) => {
     const imageData = await getImageData(id)
-    const fileLocationFixed = imageData.file_loc.replace(/ /g, '%20')
+    const fileLocationFixed = encodeURI(imageData.file_loc)
     const imageURL = fileLocationFixed + '/' + imageData.img_name
     // console.log(imageURL)
     return imageURL
@@ -185,7 +185,7 @@ const artistSearch = async (aritstName) => {
 const getImagePathByArtist = async (artistName) => {
     const imagesDataArray = await artistSearch(artistName)
     const imageData = imagesDataArray[Math.floor(Math.random() * imagesDataArray.length)]
-    const fileLocationFixed = imageData.file_loc.replace(/ /g, '%20')
+    const fileLocationFixed = encodeURI(imageData.file_loc)
     const imageURL = fileLocationFixed + '/' + imageData.img_name
     // console.log(imageURL)
     return imageURL
