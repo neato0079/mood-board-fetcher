@@ -173,7 +173,8 @@ const fillDatabase = async () => {
 
 const artistSearch = async (artistNames) => {
     // const namesList = [decodeURI(artistNames).split(',')]
-    const namesList = [artistNames.split(',')]
+    const roughList = artistNames.split(/,|, /)
+    const namesList = [roughList.map(artistName => artistName.trim())]
     // const test = [['warashi', 'chenrong']]
     const result = await pool.query(`
     SELECT test_img.img_name, test_img.file_loc, test_artist.artist_name
