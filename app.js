@@ -16,7 +16,10 @@ app.get('/random', async(req, res) =>{
     const image_id = Math.floor(Math.random() * 24) + 1
     console.log(`IMAGE ID: ${image_id}`)
     const imageURL = await database.getImagePath(image_id)
-    res.render('searchPage.ejs', {path: 'pics' + imageURL})
+    const displayResults =`
+    <img style="max-width: 100%; max-height: 100%;" src=${'../pics' + encodeURI(imageURL)}>
+    `
+    res.render('searchPage.ejs', {displayResults})
 })
 
 app.get('/deleteImage', async (req, res) => {
@@ -28,16 +31,33 @@ app.get('/getImageData/:id', async (req, res) => {
     res.send(await database.getImageData(id));
 });
 
-app.get('/gotoimage', async (req, res) => {
-    const image_id = Math.floor(Math.random() * 25)
-    const imageURL = await database.getImagePath(image_id)
-    res.send(`<div style="height: 90vh; object-fit: contain;"><img style="max-width: 100%; max-height: 100%;" src="pics/${imageURL}"></div>`)
+app.get('/search_Artist_:artistName', async (req, res) => {
+    const artistName = decodeURI(req.params.artistName)
+    const paths = await database.getImagePathByArtist(artistName)
+    const displayImages = (paths) => {
+        let result = ''
+        for (let image of paths) {
+            image = encodeURI(image) 
+            result += `
+            <img style="max-width: 100%; max-height: 100%;" src=${'../pics' + image}>
+            `
+        }
+        return result
+    }
+
+    res.render('searchPage.ejs', {
+        displayResults: displayImages(paths)
+    })
 })
 
-app.get('/search_Artist_:artistName', async (req, res) => {
-    const artistName = req.params.artistName
-    const imageURL = await database.getImagePathByArtist(artistName)
-    res.render('searchPage.ejs', {path: 'pics' + imageURL})
+
+app.get('/test', async (req, res) => {
+    res.render('test.ejs', {
+        val: 'poop',
+        test: test = () => {
+            return 'title'
+        }
+    })
 })
 
 app.use((err, req, res, next) => { // This handles all errors
