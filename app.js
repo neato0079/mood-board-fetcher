@@ -34,6 +34,10 @@ app.get('/getImageData/:id', async (req, res) => {
 app.get('/search_Artist_:artistName', async (req, res) => {
     const artistName = decodeURI(req.params.artistName)
     const paths = await database.getImagePathByArtist(artistName)
+    if (paths.length == 0) {
+        res.render('noResult.ejs')
+        return
+    }
     const displayImages = (paths) => {
         let result = ''
         for (let image of paths) {
