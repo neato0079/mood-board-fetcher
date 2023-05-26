@@ -15,6 +15,11 @@
 .battsElement{
     text-align: center;
 }
+
+.artistSearch{
+    display: flex;
+    flex-direction: column;
+}
 #random {
     height: auto;
     width: auto;
