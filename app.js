@@ -39,7 +39,7 @@ app.get('/search_Artist_:artistName', async (req, res) => {
         for (let image of paths) {
             image = encodeURI(image) 
             result += `
-            <img style="max-width: 100%; max-height: 100%;" src=${'../pics' + image}>
+            <a href=${'../pics' + image} target="_blank"><img style="max-width: 70%; max-height: 70%;" src=${'../pics' + image}></a>
             `
         }
         return result
