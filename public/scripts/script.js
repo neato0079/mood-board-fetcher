@@ -7,10 +7,10 @@ const show = () => {
 }
 const searchForm = document.querySelector(".artistSearch");
 
-searchForm.addEventListener("submit", function (e) {
+searchForm.addEventListener("submit", e => {
   e.preventDefault() // This prevents the window from reloading
 
-  const formData = new FormData(this);
+  const formData = new FormData(e.target);
   let input = formData.get("artisttName");
   // input = input.split(',')
   // const result = Array.from(input, value => value.trim()) // trims white space from each value in array
