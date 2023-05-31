@@ -26,3 +26,9 @@ create an input text box that takes an arist name. this input will query the dat
 
 things learned 5/18:
 if a js file is using node modules, you can't use that file as a script in your html. html is exceuted by the browser while that file is requiring and using node packages, which the browser cannot do. keep js files out of your html if they use node packages. read here for more: https://stackoverflow.com/questions/39280820/call-a-node-js-function-inside-an-html-file
+
+todo 5/31:
+porperly set up an endpoint that that takes an object from a query
+
+things i learned:
+arrow functions use 'this' differently than normal functions https://stackoverflow.com/questions/37784717/meteor-arrow-functions-breaking-each-loop-in-es6
