@@ -56,13 +56,19 @@ app.get('/search_Artist_:artistName', async (req, res) => {
 
 
 app.get('/test', async (req, res) => {
+    // let page = req.query.page;
+    // let limit = req.query.limit;
+    console.log('ets')
+    console.log(req.query)
     res.render('test.ejs', {
         val: 'poop',
         test: test = () => {
             return 'title'
-        }
+        },
+        searchResult: req.query.search
     })
 })
+
 
 app.use((err, req, res, next) => { // This handles all errors
     console.error(err.stack)
