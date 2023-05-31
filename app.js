@@ -33,7 +33,8 @@ app.get('/getImageData/:id', async (req, res) => {
 
 app.get('/search', async (req, res) => {
     const artistName = req.query.artistName
-    console.log(artistName)
+    const keyWord = req.query.keyWord
+    console.log(keyWord)
     // const artistName = decodeURI(req.query.artistName)
     const paths = await database.getImagePathByArtist(artistName)
     if (paths.length == 0) {
