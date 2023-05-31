@@ -31,8 +31,10 @@ app.get('/getImageData/:id', async (req, res) => {
     res.send(await database.getImageData(id));
 });
 
-app.get('/search_Artist_:artistName', async (req, res) => {
-    const artistName = decodeURI(req.params.artistName)
+app.get('/search', async (req, res) => {
+    const artistName = req.query.artistName
+    console.log(artistName)
+    // const artistName = decodeURI(req.query.artistName)
     const paths = await database.getImagePathByArtist(artistName)
     if (paths.length == 0) {
         res.render('noResult.ejs')
