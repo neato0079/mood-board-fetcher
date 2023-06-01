@@ -173,6 +173,7 @@ const fillDatabase = async () => {
 
 const artistSearch = async (artistNames) => {
     // const namesList = [decodeURI(artistNames).split(',')]
+    console.log(artistNames)
     const roughList = artistNames.split(/,|, /)
     const namesList = [roughList.map(artistName => artistName.trim())]
     // const test = [['warashi', 'chenrong']]
@@ -186,8 +187,26 @@ const artistSearch = async (artistNames) => {
     return result[0]
 }
 
-const getImagePathByArtist = async (artistNames) => {
-    const imagesDataArray = await artistSearch(artistNames)
+const keyWordSearch = async (keyWords) => {
+    // const namesList = [decodeURI(artistNames).split(',')]
+    const roughList = keyWords.split(/,|, /)
+    const wordsList = [roughList.map(keyWord => keyWord.trim())]
+    // const test = [['warashi', 'chenrong']]
+    const result = await pool.query(`
+    SELECT test_img.img_name, test_img.file_loc
+    FROM test_word, test_word_img
+    JOIN test_img
+    ON test_img.id = test_word_img.image_id 
+    WHERE test_word.key_word IN (?) AND test_word.id = test_word_img.word_id;
+    `, wordsList) // the ? param is already passed as an array in mysql2 so we need the extra [] at line 176
+    return result[0]
+}
+
+const getImagePathByAll = async (query) => {
+    const imagesByArtist = await artistSearch(query.artistName);
+    const imagesByKeyWord = await keyWordSearch(query.keyWord);
+    const imagesDataArray = imagesByArtist.concat(imagesByKeyWord);
+    console.log(imagesDataArray)
     // const imageData = imagesDataArray[Math.floor(Math.random() * imagesDataArray.length)]
     // const decodedImagesArray = Array.from(imagesDataArray, imageData => decodeURI(imageData.file_loc))
     // const fileLocationFixed = decodeURI(imageData.file_loc)
@@ -197,10 +216,28 @@ const getImagePathByArtist = async (artistNames) => {
     // }
 
     const paths = imagesDataArray.map( imageData => imageData.file_loc + '/' + imageData.img_name)
-
+    const smallPaths = paths.slice(0,4)
     // const imageURL = fileLocationFixed + '/' + imageData.img_name
+    
+    return smallPaths
+    
+    // return decodedImagesArray
+}
+const getImagePathByArtist = async (artistNames) => {
+    const imagesDataArray = await artistSearch(artistNames.artistName)
+    // const imageData = imagesDataArray[Math.floor(Math.random() * imagesDataArray.length)]
+    // const decodedImagesArray = Array.from(imagesDataArray, imageData => decodeURI(imageData.file_loc))
+    // const fileLocationFixed = decodeURI(imageData.file_loc)
 
-    return paths
+    // for (let imageData of imagesDataArray){
+    //     imageData.file_loc = decodeURI(imageData.file_loc)
+    // }
+
+    const paths = imagesDataArray.map( imageData => imageData.file_loc + '/' + imageData.img_name)
+    const smallPaths = paths.slice(0,6)
+    // const imageURL = fileLocationFixed + '/' + imageData.img_name
+    console.log(smallPaths)
+    return smallPaths
     
     // return decodedImagesArray
 }
@@ -245,5 +282,6 @@ module.exports = {
     getImageData,
     getImagePath,
     artistSearch,
-    getImagePathByArtist
+    getImagePathByArtist,
+    getImagePathByAll
 }
