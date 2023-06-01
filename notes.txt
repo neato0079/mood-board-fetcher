@@ -31,4 +31,4 @@ todo 5/31:
 porperly set up an endpoint that that takes an object from a query
 
 things i learned:
-arrow functions use 'this' differently than normal functions https://stackoverflow.com/questions/37784717/meteor-arrow-functions-breaking-each-loop-in-es6
+arrow functions use 'this' differently than normal functions https://stackoverflow.com/questions/37784717/meteor-arrow-functions-breaking-each-loop-in-es6sdf
