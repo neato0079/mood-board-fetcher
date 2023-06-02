@@ -32,3 +32,7 @@ porperly set up an endpoint that that takes an object from a query
 
 things i learned:
 arrow functions use 'this' differently than normal functions https://stackoverflow.com/questions/37784717/meteor-arrow-functions-breaking-each-loop-in-es6sdf
+
+TODO June:
+how to join more than 2 tables: https://learnsql.com/blog/how-to-join-3-tables-or-more-in-sql/
+allow user to add tags
