@@ -1,12 +1,7 @@
 require('dotenv').config()
-// import * as dotenv from 'dotenv'
-// dotenv.config()
 const fs = require('fs');
 const mysql = require('mysql2');
-// import {fs} from 'fs'
-// import * as fs from 'fs';
-// import * as mysql from 'mysql2';
-// import {mysql} from 'mysql2'
+
 const {
     ART_REF_DB_PASS,
     USER
@@ -19,12 +14,6 @@ const pool = mysql.createPool({
     database: 'art_ref_db'
     // port 3306
 }).promise()
-
-const test = async () => {
-    const [result] = await pool.query("SELECT * FROM test_img")
-    console.log(result)
-}
-// test()
 
 // HELPERS:
 const insert = async (table, column, value) => {
@@ -202,6 +191,7 @@ const keyWordSearch = async (keyWords) => {
     return result[0]
 }
 
+// this isnt being used yet because its a wip
 const getImagePathByAll = async (query) => {
     const imagesByArtist = await artistSearch(query.artistName);
     const imagesByKeyWord = await keyWordSearch(query.keyWord);
@@ -217,29 +207,13 @@ const getImagePathByAll = async (query) => {
 
     const paths = imagesDataArray.map( imageData => imageData.file_loc + '/' + imageData.img_name)
     const smallPaths = paths.slice(0,4)
-    // const imageURL = fileLocationFixed + '/' + imageData.img_name
-    
     return smallPaths
-    
-    // return decodedImagesArray
 }
 const getImagePathByArtist = async (artistNames) => {
     const imagesDataArray = await artistSearch(artistNames.artistName)
-    // const imageData = imagesDataArray[Math.floor(Math.random() * imagesDataArray.length)]
-    // const decodedImagesArray = Array.from(imagesDataArray, imageData => decodeURI(imageData.file_loc))
-    // const fileLocationFixed = decodeURI(imageData.file_loc)
-
-    // for (let imageData of imagesDataArray){
-    //     imageData.file_loc = decodeURI(imageData.file_loc)
-    // }
-
     const paths = imagesDataArray.map( imageData => imageData.file_loc + '/' + imageData.img_name)
     const smallPaths = paths.slice(0,6)
-    // const imageURL = fileLocationFixed + '/' + imageData.img_name
-    console.log(smallPaths)
     return smallPaths
-    
-    // return decodedImagesArray
 }
 
 const getAllArtists = async() => {
@@ -270,18 +244,7 @@ const main = async () => {
 const testFunc = () => {
     console.log("Button clicked")
 }
-// export {
-//     insert,
-//     insertBaseData,
-//     createArtLibraryObj,
-//     insertEntireArtLib,
-//     createAssociationImgWithArtist,
-//     create,
-//     removeValue,
-//     removeImage,
-//     getImageData,
-//     getImagePath,
-// }
+
 module.exports = {
     insert,
     insertBaseData,
