@@ -8,8 +8,8 @@ app.set('view engine', 'ejs')
 app.use(express.static('public'))
 app.use('/pics', express.static('/Users/mattbot/Pictures/art-ref'));
 
-app.get('/', (req, res) => {
-    res.render('index.ejs')
+app.get('/', async(req, res) => {
+    res.render('index.ejs', {artistList: await database.getAllArtists()})
 })
 
 app.get('/random', async(req, res) =>{
