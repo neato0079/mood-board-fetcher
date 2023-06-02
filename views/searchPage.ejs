@@ -14,7 +14,12 @@
 
         <form class="artistSearch" autocomplete="off">
             <label for="artistBox">Artist:</label>
-            <input type="text" id="artistBox" name="artistName"/>
+            <input list="artistList" id="artistBox" name="artistName"/>
+            <datalist id="artistList">
+                <% for (artist of artistList){%>
+                <option value="<%=artist%>">
+                <% } %>
+            </datalist>
             <label for="keyWordBox">Key Word:</label>
             <input type="text" id="keyWordBox" name="keyWord"/>
             <button id="search">search</button>

@@ -242,6 +242,18 @@ const getImagePathByArtist = async (artistNames) => {
     // return decodedImagesArray
 }
 
+const getAllArtists = async() => {
+    const artistListObj = await pool.query(`
+    SELECT test_artist.artist_name
+    FROM test_artist;
+    `)
+    const artistList = []
+    for(obj of artistListObj[0]){
+        artistList.push(obj.artist_name)
+    }
+    return artistList
+}
+
 const main = async () => {
     console.log(await getImageData(1))
 }
@@ -283,5 +295,6 @@ module.exports = {
     getImagePath,
     artistSearch,
     getImagePathByArtist,
-    getImagePathByAll
+    getImagePathByAll,
+    getAllArtists
 }
