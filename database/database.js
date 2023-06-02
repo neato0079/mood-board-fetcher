@@ -87,7 +87,7 @@ const insertEntireArtLib = async (library) => {
                 INSERT INTO test_ass 
                 SET image_id = (
                         SELECT id FROM test_img 
-                        WHERE img_name = '${img}'
+                        WHERE img_name = '${img}' AND file_loc = '/${artist}'
                     ), 
                     artist_id = (
                         SELECT id FROM test_artist 
