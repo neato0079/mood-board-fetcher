@@ -137,10 +137,18 @@ const removeImage = async (img_id) => {
 
 const getImageData = async (id) => {
     const result = await pool.query(`
-    SELECT * 
-    FROM test_img
-    WHERE id = ${id}
-    `)
+    SELECT img.img_name, artist.artist_name, word.key_word, img.view_count, img.file_loc
+    FROM   test_img AS img
+           JOIN test_ass AS ass 
+           ON ass.image_id = img.id
+           JOIN test_artist AS artist 
+           ON artist.id = ass.artist_id
+           LEFT JOIN test_word_img AS wordimg 
+           ON img.id = wordimg.image_id
+           LEFT JOIN test_word AS word 
+           ON word.id = wordimg.word_id
+    WHERE img.id = ?;
+    `, id)
     // TODO: this only returns data from the main image table. get it to return data from the association tables as well. maybe thats what the JOIN keyword is for?
     return result[0][0]
 }
