@@ -7,13 +7,14 @@ app.set('view engine', 'ejs')
 
 app.use(express.static('public'))
 app.use('/pics', express.static('/Users/mattbot/Pictures/art-ref'));
+app.use(express.json())
 
 app.get('/', async(req, res) => {
     res.render('index.ejs', {artistList: await database.getAllArtists()})
 })
 
 app.get('/random', async(req, res) =>{
-    const image_id = Math.floor(Math.random() * 1477) + 854
+    const image_id = Math.floor(Math.random() * 3676) + 1
     console.log(`IMAGE ID: ${image_id}`)
     const imageURL = await database.getImagePath(image_id)
     const displayResults =`
@@ -53,7 +54,8 @@ app.get('/search', async (req, res) => {
 
     res.render('searchPage.ejs', {
         displayResults: displayImages(paths),
-        artistList: await database.getAllArtists()
+        artistList: await database.getAllArtists(),
+        testValue: 'test value'
     })
 })
 
