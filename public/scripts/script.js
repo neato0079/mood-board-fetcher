@@ -15,7 +15,7 @@ searchForm.addEventListener("submit", e => {
   const input = new URLSearchParams(formData).toString();
   // input = input.split(',')
   // const result = Array.from(input, value => value.trim()) // trims white space from each value in array
-  
+
   // input = encodeURI(input)
 
   // uncomment the following for block to view the contents of the formdata object
@@ -26,4 +26,27 @@ searchForm.addEventListener("submit", e => {
   window.location.href = `/search?${input}`;
 });
 
+// window.onload = function() {
+//   document.getElementById('img-info').innerHTML = testValue;
+// }
 
+const fetchStuff = async () => {
+  const myReq = new Request('localhost:3000/getImageData/9')
+  fetch(myReq).then((response) => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return response.blob();
+  }).then(function (response) {
+    // var objectURL = URL.createObjectURL(myBlob); 
+    // var sc = document.createElement("script");
+    // sc.setAttribute("src", objectURL); 
+    // sc.setAttribute("type", "text/javascript"); 
+    // document.head.appendChild(sc);
+    document.getElementById('img-info').innerHTML = response
+  })
+
+}
+
+// fetchStuff()

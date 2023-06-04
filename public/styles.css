@@ -38,3 +38,12 @@
 #search{
     text-align: center;
 }
+.img-info{
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.images-content{
+    display: flex;
+}
