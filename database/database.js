@@ -151,6 +151,16 @@ const getImageData = async (id) => {
     `, id)
     // TODO: this only returns data from the main image table. get it to return data from the association tables as well. maybe thats what the JOIN keyword is for?
     return result[0][0]
+    /*
+    SAMPLE DATA:
+    {
+        "img_name": "3ko_michiimage106.png",
+        "artist_name": "3ko_michi",
+        "key_word": null,
+        "view_count": null,
+        "file_loc": "/3ko_michi"
+}
+    */
 }
 
 const getImagePath = async (id) => {
@@ -213,24 +223,24 @@ const getImagePathByAll = async (query) => {
     //     imageData.file_loc = decodeURI(imageData.file_loc)
     // }
 
-    const paths = imagesDataArray.map( imageData => imageData.file_loc + '/' + imageData.img_name)
-    const smallPaths = paths.slice(0,4)
+    const paths = imagesDataArray.map(imageData => imageData.file_loc + '/' + imageData.img_name)
+    const smallPaths = paths.slice(0, 4)
     return smallPaths
 }
 const getImagePathByArtist = async (artistNames) => {
     const imagesDataArray = await artistSearch(artistNames.artistName)
-    const paths = imagesDataArray.map( imageData => imageData.file_loc + '/' + imageData.img_name)
-    const smallPaths = paths.slice(0,6)
+    const paths = imagesDataArray.map(imageData => imageData.file_loc + '/' + imageData.img_name)
+    const smallPaths = paths.slice(0, 6)
     return smallPaths
 }
 
-const getAllArtists = async() => {
+const getAllArtists = async () => {
     const artistListObj = await pool.query(`
     SELECT test_artist.artist_name
     FROM test_artist;
     `)
     const artistList = []
-    for(obj of artistListObj[0]){
+    for (obj of artistListObj[0]) {
         artistList.push(obj.artist_name)
     }
     return artistList
