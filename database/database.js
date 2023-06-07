@@ -180,7 +180,7 @@ const fillDatabase = async () => {
 
 const artistSearch = async (artistNames) => {
     // const namesList = [decodeURI(artistNames).split(',')]
-    console.log(artistNames)
+    // console.log(artistNames)
     const roughList = artistNames.split(/,|, /)
     const namesList = [roughList.map(artistName => artistName.trim())]
     // const test = [['warashi', 'chenrong']]
