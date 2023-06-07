@@ -17,12 +17,14 @@ app.get('/random', async(req, res) =>{
     const image_id = Math.floor(Math.random() * 3676) + 1
     console.log(`IMAGE ID: ${image_id}`)
     const imageURL = await database.getImagePath(image_id)
+    const imagesData = await database.getImageData(image_id)
     const displayResults =`
     <img style="max-width: 100%; max-height: 100%;" src=${'../pics' + encodeURI(imageURL)}>
     `
     res.render('searchPage.ejs', {
         displayResults,
-        artistList: await database.getAllArtists()
+        artistList: await database.getAllArtists(),
+        imagesData: JSON.stringify(imagesData)
     })
 })
 
@@ -36,27 +38,29 @@ app.get('/getImageData/:id', async (req, res) => {
 });
 
 app.get('/search', async (req, res) => {
-    const paths = await database.getImagePathByArtist(req.query)
-    if (paths.length == 0) {
+    const images = await database.getImagePathByArtist(req.query)
+    if (images.length == 0) {
         res.render('noResult.ejs')
         return
     }
-    const displayImages = (paths) => {
+    const displayImages = (imagesObj) => {
         let result = ''
-        for (let image of paths) {
-            image = encodeURI(image) 
+        for (let image of imagesObj) {
+            imagePath = encodeURI(image.paths) 
             result += `
-            <a href=${'../pics' + image} target="_blank"><img style="max-width: 70%; max-height: 70%;" src=${'../pics' + image}></a>
+            <a href=${'../pics' + imagePath} target="_blank"><img style="max-width: 70%; max-height: 70%;" src=${'../pics' + imagePath}></a>
             `
         }
         return result
     }
 
     res.render('searchPage.ejs', {
-        displayResults: displayImages(paths),
+        displayResults: displayImages(images),
         artistList: await database.getAllArtists(),
-        testValue: 'test value'
+        testValue: 'test value',
+        imagesData:  JSON.stringify(images)
     })
+    // res.send({msg:'hello'});
 })
 
 
