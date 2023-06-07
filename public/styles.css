@@ -42,8 +42,12 @@
     display: flex;
     flex-direction: column;
     text-align: left;
+    width: 100px;
+}
+.rightfloat{
+    width: fit-content;
 }
 
 .images-content{
-    display: flex;
+    text-align: center;
 }
