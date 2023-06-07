@@ -185,7 +185,7 @@ const artistSearch = async (artistNames) => {
     const namesList = [roughList.map(artistName => artistName.trim())]
     // const test = [['warashi', 'chenrong']]
     const result = await pool.query(`
-    SELECT test_img.img_name, test_img.file_loc, test_artist.artist_name
+    SELECT test_img.img_name, test_img.file_loc, test_artist.artist_name, test_img.id
     FROM test_artist, test_ass
     JOIN test_img
     ON test_img.id = test_ass.image_id 
@@ -229,7 +229,14 @@ const getImagePathByAll = async (query) => {
 }
 const getImagePathByArtist = async (artistNames) => {
     const imagesDataArray = await artistSearch(artistNames.artistName)
-    const paths = imagesDataArray.map(imageData => imageData.file_loc + '/' + imageData.img_name)
+    // console.log(imagesDataArray)
+    const paths = imagesDataArray.map((imageData) => {
+        return {
+            paths: imageData.file_loc + '/' + imageData.img_name,
+            img_id: imageData.id
+    }
+    })
+    // console.log(paths)
     const smallPaths = paths.slice(0, 6)
     return smallPaths
 }
