@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Search</title>
-    <link rel="stylesheet" type="text/css" href="/styles.css" /> 
+    <link rel="stylesheet" type="text/css" href="/styles.css" />
 </head>
+
 <body>
     <h1 id="title"><a href="/">Matt's Mood Board Fetcher</a></h1>
     <!-- <button onclick="wtf()">button tag</button> -->
@@ -14,14 +16,14 @@
 
         <form class="artistSearch" autocomplete="off">
             <label for="artistBox">Artist:</label>
-            <input list="artistList" id="artistBox" name="artistName"/>
+            <input list="artistList" id="artistBox" name="artistName" />
             <datalist id="artistList">
                 <% for (artist of artistList){%>
-                <option value="<%=artist%>">
-                <% } %>
+                    <option value="<%=artist%>">
+                        <% } %>
             </datalist>
             <label for="keyWordBox">Key Word:</label>
-            <input type="text" id="keyWordBox" name="keyWord"/>
+            <input type="text" id="keyWordBox" name="keyWord" />
             <button id="search">search</button>
         </form>
 
@@ -35,14 +37,20 @@
     <div class="images-content">
         <div class="img-info">
             <span class="rightfloat">
-                Image info: <span id="img-info"><%=imagesData%></span>
+                Image info: <span id="img-info">
+                    <%=imagesData%>
+                </span>
             </span>
+            <input type="checkbox" id="favStatus" name="favStatus" value="False">
+            <label for="vehicle1">Is favorite</label><br>
         </div>
-        
-        <div id="referenceImage"><%-displayResults%><div>
-        
-    </div>
 
-    <script type = "text/javascript" src="./scripts/script.js"></script> 
+        <div id="referenceImage"><%-displayResults%>
+                <div>
+
+                </div>
+
+                <script type="text/javascript" src="./scripts/script.js"></script>
 </body>
+
 </html>
