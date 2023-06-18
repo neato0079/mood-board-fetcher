@@ -253,6 +253,14 @@ const getAllArtists = async () => {
     return artistList
 }
 
+const setFav = async (id) => {
+    await pool.query(`
+    UPDATE art_ref_db.test_img 
+    SET favorite = 1 
+    WHERE id = ?;
+    `, id)
+}
+
 const main = async () => {
     console.log(await getImageData(1))
 }
