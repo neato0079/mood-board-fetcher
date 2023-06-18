@@ -28,6 +28,21 @@ app.get('/random', async(req, res) =>{
     })
 })
 
+app.get('/randomFav', async(req, res) =>{
+    const image_id = await database.getFavImage()
+    // console.log(`IMAGE ID: ${image_id}`)
+    const imageURL = await database.getImagePath(image_id)
+    const imagesData = await database.getImageData(image_id)
+    const displayResults =`
+    <img style="max-width: 100%; max-height: 100%;" src=${'../pics' + encodeURI(imageURL)}>
+    `
+    res.render('searchPage.ejs', {
+        displayResults,
+        artistList: await database.getAllArtists(),
+        imagesData: JSON.stringify(imagesData)
+    })
+})
+
 app.get('/deleteImage', async (req, res) => {
     res.send("This will trigger a deletion of a given image??????");
 });
