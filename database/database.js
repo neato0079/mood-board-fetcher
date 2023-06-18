@@ -150,7 +150,7 @@ const getFavImage = async () => {
     WHERE img.favorite = 1;
     `)
     const result = favorites[0][Math.floor(Math.random() * favorites.length)]
-    return result
+    return result.id
 }
 
 const getImageData = async (id) => {
