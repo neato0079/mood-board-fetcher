@@ -135,6 +135,24 @@ const removeImage = async (img_id) => {
     `)
 }
 
+const getFavImage = async () => {
+    const favorites = await pool.query(`
+    SELECT img.id, artist.artist_name
+    FROM   test_img AS img
+           JOIN test_ass AS ass 
+           ON ass.image_id = img.id
+           JOIN test_artist AS artist 
+           ON artist.id = ass.artist_id
+           LEFT JOIN test_word_img AS wordimg 
+           ON img.id = wordimg.image_id
+           LEFT JOIN test_word AS word 
+           ON word.id = wordimg.word_id
+    WHERE img.favorite = 1;
+    `)
+    const result = favorites[0][Math.floor(Math.random() * favorites.length)]
+    return result
+}
+
 const getImageData = async (id) => {
     const result = await pool.query(`
     SELECT img.img_name, artist.artist_name, word.key_word, img.view_count, img.file_loc
@@ -292,5 +310,6 @@ module.exports = {
     artistSearch,
     getImagePathByArtist,
     getImagePathByAll,
-    getAllArtists
+    getAllArtists,
+    getFavImage
 }
