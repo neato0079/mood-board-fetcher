@@ -271,7 +271,7 @@ const getAllArtists = async () => {
     return artistList
 }
 
-const setFav = async (id) => {
+const toggleFav = async (id) => {
     const favQuery = await pool.query(`
     SELECT test_img.favorite
     FROM test_img
@@ -322,5 +322,5 @@ module.exports = {
     getImagePathByAll,
     getAllArtists,
     getFavImage,
-    setFav
+    toggleFav
 }
