@@ -155,7 +155,7 @@ const getFavImage = async () => {
 
 const getImageData = async (id) => {
     const result = await pool.query(`
-    SELECT img.img_name, artist.artist_name, word.key_word, img.view_count, img.file_loc
+    SELECT img.img_name, artist.artist_name, word.key_word, img.view_count, img.file_loc, img.favorite
     FROM   test_img AS img
            JOIN test_ass AS ass 
            ON ass.image_id = img.id
@@ -252,7 +252,7 @@ const getImagePathByArtist = async (artistNames) => {
         return {
             paths: imageData.file_loc + '/' + imageData.img_name,
             img_id: imageData.id
-    }
+        }
     })
     // console.log(paths)
     const smallPaths = paths.slice(0, 6)
@@ -271,12 +271,22 @@ const getAllArtists = async () => {
     return artistList
 }
 
-const setFav = async (fav, id) => {
+const setFav = async (id) => {
+    const favQuery = await pool.query(`
+    SELECT test_img.favorite
+    FROM test_img
+    WHERE test_img.id = ?;
+    `, id)
+    
+    const favStatus = favQuery[0][0].favorite // this will be either 1(fav) or 0 (notfav)
+    
+    const toggle = 1 - favStatus // this essentially 'flips the switch' on the fav status
+    
     await pool.query(`
     UPDATE art_ref_db.test_img 
     SET favorite = ? 
     WHERE id = ?;
-    `, fav, id)
+    `, [toggle, id])
 }
 
 const main = async () => {
@@ -311,5 +321,6 @@ module.exports = {
     getImagePathByArtist,
     getImagePathByAll,
     getAllArtists,
-    getFavImage
+    getFavImage,
+    setFav
 }
