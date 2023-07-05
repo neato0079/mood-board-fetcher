@@ -11,17 +11,7 @@ searchForm.addEventListener("submit", e => {
   e.preventDefault() // This prevents the window from reloading
 
   const formData = new FormData(e.target);
-  // let input = formData.get("artisttName");
   const input = new URLSearchParams(formData).toString();
-  // input = input.split(',')
-  // const result = Array.from(input, value => value.trim()) // trims white space from each value in array
-
-  // input = encodeURI(input)
-
-  // uncomment the following for block to view the contents of the formdata object
-  // for (const pair of formData.entries()) {
-  //   console.log(`${pair[0]}: '${pair[1]}'`);
-  // }
 
   window.location.href = `/search?${input}`;
 });
@@ -29,6 +19,17 @@ searchForm.addEventListener("submit", e => {
 // window.onload = function() {
 //   document.getElementById('img-info').innerHTML = testValue;
 // }
+
+const favStatus = document.getElementById("favStatus");
+
+favStatus.addEventListener("click", async (e) => {
+  e.preventDefault();
+  // console.log('poo')
+  const data = document.getElementById("img-id")
+  const id = data.getAttribute("value")
+  fetch(`http://localhost:3000/toggleFav/${id}`)
+  .then(console.log('favorite status toggled!'))
+});
 
 const fetchStuff = async () => {
   const myReq = new Request('localhost:3000/getImageData/9')

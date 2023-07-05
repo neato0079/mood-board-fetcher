@@ -149,13 +149,15 @@ const getFavImage = async () => {
            ON word.id = wordimg.word_id
     WHERE img.favorite = 1;
     `)
-    const result = favorites[0][Math.floor(Math.random() * favorites.length)]
+    const result = favorites[0][Math.floor(Math.random() * favorites[0].length)]
+    console.log(favorites[0])
+    console.log(favorites[0].length)
     return result.id
 }
 
 const getImageData = async (id) => {
     const result = await pool.query(`
-    SELECT img.img_name, artist.artist_name, word.key_word, img.view_count, img.file_loc, img.favorite
+    SELECT img.id, img.img_name, artist.artist_name, word.key_word, img.view_count, img.file_loc, img.favorite
     FROM   test_img AS img
            JOIN test_ass AS ass 
            ON ass.image_id = img.id

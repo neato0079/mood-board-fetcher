@@ -24,7 +24,8 @@ app.get('/random', async(req, res) =>{
     res.render('searchPage.ejs', {
         displayResults,
         artistList: await database.getAllArtists(),
-        imagesData: JSON.stringify(imagesData)
+        imagesData: JSON.stringify(imagesData),
+        imageID: imagesData.id
     })
 })
 
@@ -39,7 +40,8 @@ app.get('/randomFav', async(req, res) =>{
     res.render('searchPage.ejs', {
         displayResults,
         artistList: await database.getAllArtists(),
-        imagesData: JSON.stringify(imagesData)
+        imagesData: JSON.stringify(imagesData),
+        imageID: image_id
     })
 })
 
@@ -73,7 +75,8 @@ app.get('/search', async (req, res) => {
         displayResults: displayImages(images),
         artistList: await database.getAllArtists(),
         testValue: 'test value',
-        imagesData:  JSON.stringify(images)
+        imagesData:  JSON.stringify(images),
+        imageID: images
     })
     // res.send({msg:'hello'});
 })
@@ -94,6 +97,11 @@ app.get('/test', async (req, res) => {
 })
 
 
+app.get('/toggleFav/:id', async (req, res) => {
+    const id = req.params.id
+    await database.toggleFav(id)
+    console.log('toggled fav')
+})
 app.use((err, req, res, next) => { // This handles all errors
     console.error(err.stack)
     res.status(500).send('It broke...');
