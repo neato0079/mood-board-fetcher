@@ -23,6 +23,14 @@ const insert = async (table, column, value) => {
     `)
 }
 
+const shuffle = (array) => {
+    for (let i = 0; i < array.length ; i++) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
 // insert('test_img','img_name','test.jgp')
 
 // Base data includes the following: image name, image location, and artist name
@@ -258,7 +266,7 @@ const getImagePathByArtist = async (queryURL) => {
     })
     // console.log(paths)
     const smallPaths = paths.slice(0, 6)
-    return smallPaths
+    return paths // returns array of objects
 }
 
 const getAllArtists = async () => {
@@ -279,11 +287,11 @@ const toggleFav = async (id) => {
     FROM test_img
     WHERE test_img.id = ?;
     `, id)
-    
+
     const favStatus = favQuery[0][0].favorite // this will be either 1(fav) or 0 (notfav)
-    
+
     const toggle = 1 - favStatus // this essentially 'flips the switch' on the fav status
-    
+
     await pool.query(`
     UPDATE art_ref_db.test_img 
     SET favorite = ? 
