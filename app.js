@@ -55,6 +55,7 @@ app.get('/getImageData/:id', async (req, res) => {
 });
 
 app.get('/search', async (req, res) => {
+    console.log(req.query)
     const images = await database.getImagePathByArtist(req.query)
     if (images.length == 0) {
         res.render('noResult.ejs')
