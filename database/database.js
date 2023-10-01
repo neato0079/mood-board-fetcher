@@ -289,6 +289,8 @@ const toggleFav = async (id) => {
     SET favorite = ? 
     WHERE id = ?;
     `, [toggle, id])
+
+    console.log(`Image ID ${id} was set to fav status ${toggle}`)
 }
 
 const main = async () => {
