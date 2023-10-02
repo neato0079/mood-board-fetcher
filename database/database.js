@@ -266,7 +266,8 @@ const getImagePathByArtist = async (queryURL) => {
     })
     // console.log(paths)
     const smallPaths = paths.slice(0, 6)
-    return paths // returns array of objects
+    const randPaths = shuffle(paths)
+    return randPaths // returns array of objects
 }
 
 const getAllArtists = async () => {
