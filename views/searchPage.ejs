@@ -16,7 +16,7 @@
 
         <form class="artistSearch" autocomplete="off">
             <label for="artistBox">Artist:</label>
-            <input list="artistList" id="artistBox" name="artistName" />
+            <input list="artistList" id="artistBox" name="artistName" value="<%=artistUser%>"/>
             <datalist id="artistList">
                 <% for (artist of artistList){%>
                     <option value="<%=artist%>">

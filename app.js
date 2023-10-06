@@ -83,7 +83,8 @@ app.get('/search', async (req, res) => {
         artistList: await database.getAllArtists(),
         testValue: 'test value',
         imagesData:  JSON.stringify(images),
-        imageID: images
+        imageID: images,
+        artistUser: req.query.artistName
     })
     // res.send({msg:'hello'});
 })
