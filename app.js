@@ -67,13 +67,32 @@ app.get('/search', async (req, res) => {
         res.render('noResult.ejs')
         return
     }
+
+    const createInput = (index) => {
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.id = 'favStatus' + index; // Give each input a unique ID
+        input.addEventListener('change', function() {
+            // Your event handling logic here
+            console.log('Input changed for favStatus' + index);
+        });
+
+        // Add the input element to the container
+        const container = document.getElementById('referenceImage');
+        container.appendChild(input);
+    }
+
     const displayImages = (imagesObj) => {
         let result = ''
         for (let image of imagesObj) {
             imagePath = encodeURI(image.paths) 
             result += `
-            <a href=${'../pics' + imagePath} target="_blank"><img style="max-width: 70%; max-height: 70%;" src=${'../pics' + imagePath}></a>
+            <a href=${'../pics' + imagePath} target="_blank"><img style="max-width: 70%; max-height: 70%;" src="${'../pics' + imagePath}";data-id=${image.img_id}></a>
+            <input type="checkbox" id="favStatus" name="favStatus" value=${image.img_id}>
+            <label for="vehicle1">Is favorite</label><br>
             `
+            // console.log(`Images:${image}`)
+            createInput(image.img_id)
         }
         return result
     }

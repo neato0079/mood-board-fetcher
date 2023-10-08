@@ -20,16 +20,18 @@ searchForm.addEventListener("submit", e => {
 //   document.getElementById('img-info').innerHTML = testValue;
 // }
 
-const favStatus = document.getElementById("favStatus");
+// const favStatus = document.getElementById("favStatus");
 
-favStatus.addEventListener("click", async (e) => {
-  e.preventDefault();
-  // console.log('poo')
-  const data = document.getElementById("img-id")
-  const id = data.getAttribute("value")
-  fetch(`http://localhost:3000/toggleFav/${id}`)
-  .then(console.log('favorite status toggled!'))
-});
+// favStatus.addEventListener("click", async (e) => {
+//   e.preventDefault();
+//   // console.log('poo')
+//   console.log(JSON.stringify(e))
+//   const id = e.explicitOriginalTarget.value
+//   // const data = document.getElementById("img-id")
+//   // const id = data.getAttribute("value")
+//   fetch(`http://localhost:3000/toggleFav/${id}`)
+//   .then(console.log(`favorite status toggled for image id ${id}!`))
+// });
 
 const fetchStuff = async () => {
   const myReq = new Request('localhost:3000/getImageData/9')
