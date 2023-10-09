@@ -41,7 +41,8 @@ app.get('/randomFav', async(req, res) =>{
         displayResults,
         artistList: await database.getAllArtists(),
         imagesData: JSON.stringify(imagesData),
-        imageID: image_id
+        imageID: image_id,
+        artistUser:''
     })
 })
 
@@ -87,9 +88,11 @@ app.get('/search', async (req, res) => {
         for (let image of imagesObj) {
             imagePath = encodeURI(image.paths) 
             result += `
+            <div class="result-object">
             <a href=${'../pics' + imagePath} target="_blank"><img style="max-width: 70%; max-height: 70%;" src="${'../pics' + imagePath}";data-id=${image.img_id}></a>
             <input type="checkbox" id="${'favStatus'+image.img_id}" class="favStatus" value=${image.img_id}>
-            <label for="vehicle1">Is favorite</label><br>
+            <label for="vehicle1">Toggle favorite status</label><br>
+            </div>
             `
             // console.log(`Images:${image}`)
             // createInput(image.img_id)
