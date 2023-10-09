@@ -96,3 +96,40 @@ h1{
     align-self: flex-start;
     margin: 10px;
 }
+/* 
+[class="favStatus"] {
+    position: absolute;
+    left: -100vw;
+  }
+  
+  [for="favStatus"] {
+    color: #aab8c2;
+    cursor: pointer;
+    font-size: 6em;
+    align-self: center;  
+    transition: color 0.2s ease-in-out;
+  }
+  
+  [for="favStatus"]:hover {
+    color: grey;
+  }
+  
+  [for="favStatus"]::selection {
+    color: none;
+    background: transparent;
+  }
+  
+  [for="favStatus"]::moz-selection {
+    color: none;
+    background: transparent;
+  }
+  
+  [id="favStatus"]:checked + label {
+    color: #e2264d;
+    will-change: font-size;
+    animation: heart 1s cubic-bezier(.17, .89, .32, 1.49);
+  }
+  
+  
+  
+  @keyframes favStatus {0%, 17.5% {font-size: 0;}} */

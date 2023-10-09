@@ -94,11 +94,18 @@ app.get('/search', async (req, res) => {
     const displayImages = (imagesObj) => {
         let result = ''
         for (let image of imagesObj) {
+            console.log(image)
+            let favStatus = ''
+            if(image.fav){
+                console.log('fav: '+image.fav)
+                favStatus = 'checked'
+            }
             imagePath = encodeURI(image.paths)
+            console.log(favStatus)
             result += `
             <div class="result-object">
             <a href=${'../pics' + imagePath} target="_blank"><img style="max-width: 900px; max-height: 70%;border-radius: 6px;" src="${'../pics' + imagePath}";data-id=${image.img_id}></a>
-            <input type="checkbox" id="${'favStatus' + image.img_id}" class="favStatus" value=${image.img_id}>
+            <input type="checkbox" id="${'favStatus' + image.img_id}" class="favStatus" value=${image.img_id} ${favStatus}>
             <label for="vehicle1">Toggle favorite status</label><br>
             </div>
             `

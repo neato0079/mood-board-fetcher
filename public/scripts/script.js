@@ -27,7 +27,7 @@ const addFavListen = () => {
     const nodeID = node.getAttribute('id');
     const resultInstance = document.getElementById(nodeID)
     resultInstance.addEventListener("click", async (e) => {
-      e.preventDefault();
+      // e.preventDefault();
       // console.log('poo')
       console.log(JSON.stringify(e))
       const id = e.explicitOriginalTarget.value
