@@ -1,8 +1,16 @@
 #referenceImage {
-    height: 70vh; 
-    object-fit: contain;
-    text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
 }
+
+/* #referenceImage{
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+} */
 .batts {
     display: flex;
     flex-direction: column;
@@ -50,4 +58,13 @@
 
 .images-content{
     text-align: center;
+}
+
+.result-object{
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    border-style: groove;
+    border-radius: 6px;
+    align-self: flex-start;
 }
