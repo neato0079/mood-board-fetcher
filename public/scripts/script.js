@@ -20,8 +20,28 @@ searchForm.addEventListener("submit", e => {
 //   document.getElementById('img-info').innerHTML = testValue;
 // }
 
-// const favStatus = document.getElementById("favStatus");
-
+const addFavListen = () => {
+  const favStatus = document.querySelectorAll("input.favStatus");
+  // console.log(favStatus)
+  for (node of favStatus) {
+    const nodeID = node.getAttribute('id');
+    const resultInstance = document.getElementById(nodeID)
+    resultInstance.addEventListener("click", async (e) => {
+      e.preventDefault();
+      // console.log('poo')
+      console.log(JSON.stringify(e))
+      const id = e.explicitOriginalTarget.value
+      // const data = document.getElementById("img-id")
+      // const id = data.getAttribute("value")
+      fetch(`http://localhost:3000/toggleFav/${id}`)
+        .then(console.log(`favorite status toggled for image id ${id}!`))
+    });
+  }
+}
+window.onload = (event) => {
+  console.log("page is fully loaded");
+  addFavListen()
+};
 // favStatus.addEventListener("click", async (e) => {
 //   e.preventDefault();
 //   // console.log('poo')
@@ -32,6 +52,16 @@ searchForm.addEventListener("submit", e => {
 //   fetch(`http://localhost:3000/toggleFav/${id}`)
 //   .then(console.log(`favorite status toggled for image id ${id}!`))
 // });
+
+// const results = document.getElementById("referenceImage")
+
+
+// for(image in expressImgs){
+//   results.type = 'text';
+//   results.id = 'favStatus' + image.img_id; // Give each input a unique ID
+//   // console.log(results)
+
+// }
 
 const fetchStuff = async () => {
   const myReq = new Request('localhost:3000/getImageData/9')
