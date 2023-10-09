@@ -10,30 +10,32 @@
 </head>
 
 <body>
-    <h1 id="title"><a href="/">Matt's Mood Board Fetcher</a></h1>
+    <h1 id="title"><a href="/">[Matt's Mood Board Fetcher]</a></h1>
     <!-- <button onclick="wtf()">button tag</button> -->
     <div class="batts">
+        <div class="searchForm">
 
-        <form class="artistSearch" autocomplete="off">
-            <label for="artistBox">Artist:</label>
-            <input list="artistList" id="artistBox" name="artistName" value="<%=artistUser%>" />
-            <datalist id="artistList">
-                <% for (artist of artistList){%>
-                    <option value="<%=artist%>">
-                        <% } %>
-            </datalist>
-            <label for="keyWordBox">Key Word:</label>
-            <input type="text" id="keyWordBox" name="keyWord" />
-            <label for="countBox">Number of images:</label>
-            <input type="text" id="countBox" name="count" value="<%=imageCount%>"/>
-            <button id="search">search</button>
-        </form>
+            <form class="artistSearch" autocomplete="off">
+                <label for="artistBox">Artist:</label>
+                <input list="artistList" id="artistBox" name="artistName" value="<%=artistUser%>" />
+                <datalist id="artistList">
+                    <% for (artist of artistList){%>
+                        <option value="<%=artist%>">
+                            <% } %>
+                </datalist>
+                <label for="keyWordBox">Key Word:</label>
+                <input type="text" id="keyWordBox" name="keyWord" />
+                <label for="countBox">Number of images:</label>
+                <input type="text" id="countBox" name="count" value="<%=imageCount%>" />
+                <button id="search">search</button>
+            </form>
 
-        <div class="battsElement">
-            <button id="random" onClick="location.href='/random'">Get Random Image</button>
-            <button id="random" onClick="location.href='/randomFav'">Get Random Favorite</button>
+            <div class="battsElement">
+                <button id="random" onClick="location.href='/random'">Get Random Image</button>
+                <button id="random" onClick="location.href='/randomFav'">Get Random Favorite</button>
+            </div>
+
         </div>
-
         <!-- <button onclick="show()">do somthing</button> -->
     </div>
     <div class="images-content">

@@ -19,13 +19,15 @@ app.get('/random', async (req, res) => {
     const imageURL = await database.getImagePath(image_id)
     const imagesData = await database.getImageData(image_id)
     const displayResults = `
-    <img style="max-width: 100%; max-height: 100%;" src=${'../pics' + encodeURI(imageURL)}>
+    <img display: flex; style="max-width: 900px; max-height: 100%;" src=${'../pics' + encodeURI(imageURL)}>
     `
     res.render('searchPage.ejs', {
         displayResults,
         artistList: await database.getAllArtists(),
         imagesData: JSON.stringify(imagesData),
-        imageID: imagesData.id
+        imageID: imagesData.id,
+        artistUser: '',
+        imageCount:''
     })
 })
 
@@ -35,14 +37,15 @@ app.get('/randomFav', async (req, res) => {
     const imageURL = await database.getImagePath(image_id)
     const imagesData = await database.getImageData(image_id)
     const displayResults = `
-    <img style="max-width: 100%; max-height: 100%;" src=${'../pics' + encodeURI(imageURL)}>
+    <img style="max-width: 900px; max-height: 100%;" src=${'../pics' + encodeURI(imageURL)}>
     `
     res.render('searchPage.ejs', {
         displayResults,
         artistList: await database.getAllArtists(),
         imagesData: JSON.stringify(imagesData),
         imageID: image_id,
-        artistUser: ''
+        artistUser: '',
+        imageCount:''
     })
 })
 
@@ -94,7 +97,7 @@ app.get('/search', async (req, res) => {
             imagePath = encodeURI(image.paths)
             result += `
             <div class="result-object">
-            <a href=${'../pics' + imagePath} target="_blank"><img style="max-width: 100%; max-height: 70%;border-radius: 6px;" src="${'../pics' + imagePath}";data-id=${image.img_id}></a>
+            <a href=${'../pics' + imagePath} target="_blank"><img style="max-width: 900px; max-height: 70%;border-radius: 6px;" src="${'../pics' + imagePath}";data-id=${image.img_id}></a>
             <input type="checkbox" id="${'favStatus' + image.img_id}" class="favStatus" value=${image.img_id}>
             <label for="vehicle1">Toggle favorite status</label><br>
             </div>

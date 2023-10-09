@@ -1,11 +1,24 @@
-#referenceImage {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
+body{
+    background-color: rgb(138, 138, 138);
+    color: rgb(40, 42, 40);
+    font-family: Arial, Helvetica, sans-serif;
 }
 
+a:visited { 
+    text-decoration: none; 
+    color: rgb(28, 30, 30); 
+}
+
+a{
+    text-decoration: none; 
+    color: rgb(28, 30, 30); 
+}
+
+h1{
+    text-decoration: none;
+    font-size: 45px;
+
+}
 /* #referenceImage{
     display: grid;
     grid-template-columns: auto;
@@ -15,9 +28,13 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center;
     max-width: 400px;
     margin: 0 auto;
     padding: 10px 0;
+}
+.searchForm{
+    width: 300px;
 }
 
 .battsElement{
@@ -60,11 +77,22 @@
     text-align: center;
 }
 
+#referenceImage {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    /* position: absolute; */
+}
+
 .result-object{
     display: flex;
     flex-direction: column;
     width: auto;
-    border-style: groove;
+    background-color: rgb(136, 174, 167);
+    border-style:solid;
     border-radius: 6px;
+    border-color: rgb(66, 66, 66);
     align-self: flex-start;
+    margin: 10px;
 }
