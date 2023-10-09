@@ -9,16 +9,16 @@ app.use(express.static('public'))
 app.use('/pics', express.static('/Users/mattbot/Pictures/art-ref'));
 app.use(express.json())
 
-app.get('/', async(req, res) => {
-    res.render('index.ejs', {artistList: await database.getAllArtists()})
+app.get('/', async (req, res) => {
+    res.render('index.ejs', { artistList: await database.getAllArtists() })
 })
 
-app.get('/random', async(req, res) =>{
+app.get('/random', async (req, res) => {
     const image_id = Math.floor(Math.random() * 3676) + 1
     // console.log(`IMAGE ID: ${image_id}`)
     const imageURL = await database.getImagePath(image_id)
     const imagesData = await database.getImageData(image_id)
-    const displayResults =`
+    const displayResults = `
     <img style="max-width: 100%; max-height: 100%;" src=${'../pics' + encodeURI(imageURL)}>
     `
     res.render('searchPage.ejs', {
@@ -29,12 +29,12 @@ app.get('/random', async(req, res) =>{
     })
 })
 
-app.get('/randomFav', async(req, res) =>{
+app.get('/randomFav', async (req, res) => {
     const image_id = await database.getFavImage()
     // console.log(`IMAGE ID: ${image_id}`)
     const imageURL = await database.getImagePath(image_id)
     const imagesData = await database.getImageData(image_id)
-    const displayResults =`
+    const displayResults = `
     <img style="max-width: 100%; max-height: 100%;" src=${'../pics' + encodeURI(imageURL)}>
     `
     res.render('searchPage.ejs', {
@@ -42,7 +42,7 @@ app.get('/randomFav', async(req, res) =>{
         artistList: await database.getAllArtists(),
         imagesData: JSON.stringify(imagesData),
         imageID: image_id,
-        artistUser:''
+        artistUser: ''
     })
 })
 
@@ -57,11 +57,16 @@ app.get('/getImageData/:id', async (req, res) => {
 
 app.get('/search', async (req, res) => {
     console.log(req.query)
-    const imageCount = req.query.count
+    let imageCount = req.query.count
     let images = await database.getImagePathByArtist(req.query)
-    if(imageCount){
-        images = images.slice(0,imageCount)
+    if (imageCount > 30) {
+        imageCount = 30
+        console.log('30 image cap')
     }
+    if (!imageCount) {
+        imageCount = 6
+    }
+    images = images.slice(0, imageCount)
     console.log(images)
     console.log(`Found ${images.length} images from database`)
     if (images.length == 0) {
@@ -86,11 +91,11 @@ app.get('/search', async (req, res) => {
     const displayImages = (imagesObj) => {
         let result = ''
         for (let image of imagesObj) {
-            imagePath = encodeURI(image.paths) 
+            imagePath = encodeURI(image.paths)
             result += `
             <div class="result-object">
-            <a href=${'../pics' + imagePath} target="_blank"><img style="max-width: 70%; max-height: 70%;" src="${'../pics' + imagePath}";data-id=${image.img_id}></a>
-            <input type="checkbox" id="${'favStatus'+image.img_id}" class="favStatus" value=${image.img_id}>
+            <a href=${'../pics' + imagePath} target="_blank"><img style="max-width: 100%; max-height: 70%;border-radius: 6px;" src="${'../pics' + imagePath}";data-id=${image.img_id}></a>
+            <input type="checkbox" id="${'favStatus' + image.img_id}" class="favStatus" value=${image.img_id}>
             <label for="vehicle1">Toggle favorite status</label><br>
             </div>
             `
@@ -104,9 +109,10 @@ app.get('/search', async (req, res) => {
         displayResults: displayImages(images),
         artistList: await database.getAllArtists(),
         testValue: 'test value',
-        imagesData:  JSON.stringify(images),
+        imagesData: JSON.stringify(images),
         imageID: images,
-        artistUser: req.query.artistName
+        artistUser: req.query.artistName,
+        imageCount: imageCount
     })
     // res.send({msg:'hello'});
 })
