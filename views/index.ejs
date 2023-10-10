@@ -1,39 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <!-- <script type = "text/javascript" src="./scripts/script.js"></script>  -->
-    <link rel="stylesheet" type="text/css" href="styles.css" /> 
+    <link rel="stylesheet" type="text/css" href="styles.css" />
 </head>
+
 <body>
-    <h1 id="title"><a href="/">Matt's Mood Board Fetcher</a></h1>
+    <h1 id="title"><a href="/">[Matt's Mood Board Fetcher]</a></h1>
 
     <div class="batts">
+        <div class="searchForm"></div>
         <form class="artistSearch" autocomplete="off">
             <label for="artistBox">Artist:</label>
-            <input list="artistList" id="artistBox" name="artistName"/>
+            <input list="artistList" id="artistBox" name="artistName" />
             <datalist id="artistList">
                 <% for (artist of artistList){%>
-                <option value="<%=artist%>">
-                <% } %>
+                    <option value="<%=artist%>">
+                        <% } %>
             </datalist>
             <label for="keyWordBox">Key Word:</label>
-            <input type="text" id="keyWordBox" name="keyWord"/>
+            <input type="text" id="keyWordBox" name="keyWord" />
+            <label for="countBox">Number of images:</label>
+            <input type="text" id="countBox" name="count" value="<%=imageCount%>" />
             <button id="search">search</button>
         </form>
 
         <div class="battsElement">
             <button id="random" onClick="location.href='/random'">Get Random Image</button>
-
+            <button id="random" onClick="location.href='/randomFav'">Get Random Favorite</button>
         </div>
-
-        <!-- <button onclick="show()">do somthing</button> -->
+    </div>
+    <!-- <button onclick="show()">do somthing</button> -->
     </div>
 
-    <div id="referenceImage"><img style="max-width: 900px; max-height: 100%; border-radius: 6px;" src="assets/Recent_Stuff.png"></div>
-    <script type = "text/javascript" src="./scripts/script.js"></script> 
+    <div id="referenceImage"><img style="max-width: 900px; max-height: 100%; border-radius: 6px;"
+            src="assets/Recent_Stuff.png"></div>
+    <script type="text/javascript" src="./scripts/script.js"></script>
 </body>
+
 </html>

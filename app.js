@@ -10,7 +10,10 @@ app.use('/pics', express.static('/Users/mattbot/Pictures/art-ref'));
 app.use(express.json())
 
 app.get('/', async (req, res) => {
-    res.render('index.ejs', { artistList: await database.getAllArtists() })
+    res.render('index.ejs', { 
+        artistList: await database.getAllArtists(),
+        imageCount: '' 
+    })
 })
 
 app.get('/random', async (req, res) => {
