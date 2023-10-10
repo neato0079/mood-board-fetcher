@@ -39,8 +39,15 @@ app.get('/randomFav', async (req, res) => {
     // console.log(`IMAGE ID: ${image_id}`)
     const imageURL = await database.getImagePath(image_id)
     const imagesData = await database.getImageData(image_id)
+    // const displayResults = `
+    // <img style="max-width: 900px; max-height: 100%; border-radius: 6px;" src=${'../pics' + encodeURI(imageURL)}>
+    // `
     const displayResults = `
-    <img style="max-width: 900px; max-height: 100%; border-radius: 6px;" src=${'../pics' + encodeURI(imageURL)}>
+    <div class="result-object">
+    <a href=${'../pics' + imageURL} target="_blank"><img style="max-width: 900px; max-height: 900px;border-radius: 6px;" src="${'../pics' + imageURL}";data-id=${image_id}></a>
+    <input type="checkbox" id="${'favStatus' + image_id}" class="favStatus" value=${image_id} checked>
+    <label for="vehicle1">Toggle favorite status</label><br>
+    </div>
     `
     res.render('searchPage.ejs', {
         displayResults,
