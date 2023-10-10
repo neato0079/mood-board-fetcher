@@ -22,7 +22,7 @@ app.get('/random', async (req, res) => {
     const imageURL = await database.getImagePath(image_id)
     const imagesData = await database.getImageData(image_id)
     const displayResults = `
-    <img display: flex; style="max-width: 900px; max-height: 100%;" src=${'../pics' + encodeURI(imageURL)}>
+    <img display: flex; style="max-width: 900px; max-height: 100%; border-radius: 6px;" src=${'../pics' + encodeURI(imageURL)}>
     `
     res.render('searchPage.ejs', {
         displayResults,
@@ -40,7 +40,7 @@ app.get('/randomFav', async (req, res) => {
     const imageURL = await database.getImagePath(image_id)
     const imagesData = await database.getImageData(image_id)
     const displayResults = `
-    <img style="max-width: 900px; max-height: 100%;" src=${'../pics' + encodeURI(imageURL)}>
+    <img style="max-width: 900px; max-height: 100%; border-radius: 6px;" src=${'../pics' + encodeURI(imageURL)}>
     `
     res.render('searchPage.ejs', {
         displayResults,
