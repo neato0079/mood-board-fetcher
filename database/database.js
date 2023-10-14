@@ -207,10 +207,22 @@ const fillDatabase = async () => {
 }
 
 const artistSearch = async (artistNames) => {
+
+    if(artistNames ==[["all"]]){
+        const result = await pool.query(`
+        SELECT test_img.img_name, test_img.file_loc, test_artist.artist_name, test_img.id, test_img.favorite
+        FROM test_artist, test_ass
+        JOIN test_img
+        ON test_img.id = test_ass.image_id 
+        WHERE test_artist.artist_name IN (SELECT test_artist.artist_name) AND test_artist.id = test_ass.artist_id;
+        `) // the ? param is already passed as an array in mysql2 so we need the extra [] at namesList
+        return result[0]
+    }
     // const namesList = [decodeURI(artistNames).split(',')]
     // console.log(artistNames)
     const roughList = artistNames.split(/,|, /)
     const namesList = [roughList.map(artistName => artistName.trim())]
+    // console.log('namesList ' + JSON.stringify(namesList, 4, null))
     // const test = [['warashi', 'chenrong']]
     const result = await pool.query(`
     SELECT test_img.img_name, test_img.file_loc, test_artist.artist_name, test_img.id, test_img.favorite
@@ -218,7 +230,7 @@ const artistSearch = async (artistNames) => {
     JOIN test_img
     ON test_img.id = test_ass.image_id 
     WHERE test_artist.artist_name IN (?) AND test_artist.id = test_ass.artist_id;
-    `, namesList) // the ? param is already passed as an array in mysql2 so we need the extra [] at line 176
+    `, namesList) // the ? param is already passed as an array in mysql2 so we need the extra [] at namesList
     return result[0]
 }
 
@@ -242,7 +254,7 @@ const getImagePathByAll = async (query) => {
     const imagesByArtist = await artistSearch(query.artistName);
     const imagesByKeyWord = await keyWordSearch(query.keyWord);
     const imagesDataArray = imagesByArtist.concat(imagesByKeyWord);
-    console.log(imagesDataArray)
+    // console.log(imagesDataArray)
     // const imageData = imagesDataArray[Math.floor(Math.random() * imagesDataArray.length)]
     // const decodedImagesArray = Array.from(imagesDataArray, imageData => decodeURI(imageData.file_loc))
     // const fileLocationFixed = decodeURI(imageData.file_loc)
@@ -257,7 +269,6 @@ const getImagePathByAll = async (query) => {
 }
 const getImagePathByArtist = async (queryURL) => {
     const imagesDataArray = await artistSearch(queryURL.artistName)
-    console.log(imagesDataArray)
     const paths = imagesDataArray.map((imageData) => {
         return {
             paths: imageData.file_loc + '/' + imageData.img_name,

@@ -69,7 +69,9 @@ app.get('/getImageData/:id', async (req, res) => {
 });
 
 app.get('/search', async (req, res) => {
-    console.log(req.query)
+    // console.log('Query: ')
+    // console.log(JSON.stringify(req.query,4,null))
+    console.log('starting search...')
     let imageCount = req.query.count
     let images = await database.getImagePathByArtist(req.query)
     if (imageCount > 30) {
@@ -80,7 +82,7 @@ app.get('/search', async (req, res) => {
         imageCount = 6
     }
     images = images.slice(0, imageCount)
-    console.log(images)
+    // console.log(images)
     console.log(`Found ${images.length} images from database`)
     if (images.length == 0) {
         res.render('noResult.ejs')
