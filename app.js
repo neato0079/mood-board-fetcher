@@ -116,7 +116,7 @@ app.get('/search', async (req, res) => {
             console.log(favStatus)
             result += `
             <div class="result-object">
-            <a href=${'../pics' + imagePath} target="_blank"><img style="max-width: 900px; max-height: 900px;border-radius: 6px;" src="${'../pics' + imagePath}";data-id=${image.img_id}></a>
+            <a href=${'../pics' + imagePath} target="_blank"><img style="max-width: 400px; max-height: 900px;border-radius: 6px;" src="${'../pics' + imagePath}";data-id=${image.img_id}></a>
             <input type="checkbox" id="${'favStatus' + image.img_id}" class="favStatus" value=${image.img_id} ${favStatus}>
             <label for="vehicle1">Toggle favorite status</label><br>
             </div>
