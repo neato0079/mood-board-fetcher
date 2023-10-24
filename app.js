@@ -17,12 +17,16 @@ app.get('/', async (req, res) => {
 })
 
 app.get('/random', async (req, res) => {
+    // TODO swap out '3676' with database.length or something
     const image_id = Math.floor(Math.random() * 3676) + 1
-    // console.log(`IMAGE ID: ${image_id}`)
     const imageURL = await database.getImagePath(image_id)
     const imagesData = await database.getImageData(image_id)
     const displayResults = `
-    <img display: flex; style="max-width: 900px; max-height: 100%; border-radius: 6px;" src=${'../pics' + encodeURI(imageURL)}>
+    <div class="result-object">
+    <a href=${'../pics' + imageURL} target="_blank"><img style="max-width: 900px; max-height: 900px;border-radius: 6px;" src="${'../pics' + imageURL}";data-id=${image_id}></a>
+    <input type="checkbox" id="${'favStatus' + image_id}" class="favStatus" value=${image_id} checked>
+    <label for="vehicle1">Toggle favorite status</label><br>
+    </div>
     `
     res.render('searchPage.ejs', {
         displayResults,
@@ -36,7 +40,6 @@ app.get('/random', async (req, res) => {
 
 app.get('/randomFav', async (req, res) => {
     const image_id = await database.getFavImage()
-    // console.log(`IMAGE ID: ${image_id}`)
     const imageURL = await database.getImagePath(image_id)
     const imagesData = await database.getImageData(image_id)
     // const displayResults = `
@@ -138,22 +141,6 @@ app.get('/search', async (req, res) => {
     })
     // res.send({msg:'hello'});
 })
-
-
-app.get('/test', async (req, res) => {
-    // let page = req.query.page;
-    // let limit = req.query.limit;
-    console.log('ets')
-    console.log(req.query)
-    res.render('test.ejs', {
-        val: 'poop',
-        test: test = () => {
-            return 'title'
-        },
-        searchResult: req.query.search
-    })
-})
-
 
 app.get('/toggleFav/:id', async (req, res) => {
     const id = req.params.id
