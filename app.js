@@ -72,11 +72,11 @@ app.get('/getImageData/:id', async (req, res) => {
 });
 
 app.get('/search', async (req, res) => {
-    // console.log('Query: ')
-    // console.log(JSON.stringify(req.query,4,null))
+    console.log('Query: ')
+    console.log(JSON.stringify(req.query,4,null))
     console.log('starting search...')
     let imageCount = req.query.count
-    let images = await database.getImagePathByArtist(req.query)
+    let images = await database.getImagePathByArtist(req.query.artistName)
     if (imageCount > 30) {
         imageCount = 30
         console.log('30 image cap')

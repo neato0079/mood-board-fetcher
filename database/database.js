@@ -267,8 +267,8 @@ const getImagePathByAll = async (query) => {
     const smallPaths = paths.slice(0, 4)
     return smallPaths
 }
-const getImagePathByArtist = async (queryURL) => {
-    const imagesDataArray = await artistSearch(queryURL.artistName)
+const getImagePathByArtist = async (queryArtistName) => {
+    const imagesDataArray = await artistSearch(queryArtistName)
     const paths = imagesDataArray.map((imageData) => {
         return {
             paths: imageData.file_loc + '/' + imageData.img_name,
