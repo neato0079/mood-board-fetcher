@@ -77,6 +77,8 @@ app.get('/search', async (req, res) => {
     console.log('starting search...')
     let imageCount = req.query.count
     let images = await database.getImagePathByArtist(req.query.artistName)
+    const imagesByKeyWord = await database.keyWordSearch(req.query.keyWord)
+    images.concat(imagesByKeyWord)
     if (imageCount > 30) {
         imageCount = 30
         console.log('30 image cap')

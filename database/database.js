@@ -208,7 +208,7 @@ const fillDatabase = async () => {
 
 const artistSearch = async (artistNames) => {
 
-    if(artistNames ==[["all"]]){
+    if(artistNames ==[[""]]){
         const result = await pool.query(`
         SELECT test_img.img_name, test_img.file_loc, test_artist.artist_name, test_img.id, test_img.favorite
         FROM test_artist, test_ass
@@ -348,5 +348,6 @@ module.exports = {
     getImagePathByAll,
     getAllArtists,
     getFavImage,
-    toggleFav
+    toggleFav,
+    keyWordSearch
 }
