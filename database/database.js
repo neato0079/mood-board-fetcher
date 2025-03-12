@@ -234,10 +234,13 @@ const artistSearch = async (artistNames) => {
     return result[0]
 }
 
+
+// TODO add artist param
 const keyWordSearch = async (keyWords) => {
     // const namesList = [decodeURI(artistNames).split(',')]
     const roughList = keyWords.split(/,|, /)
     const wordsList = [roughList.map(keyWord => keyWord.trim())]
+    console.log(wordsList)
     // const test = [['warashi', 'chenrong']]
     const result = await pool.query(`
     SELECT test_img.img_name, test_img.file_loc
@@ -246,6 +249,7 @@ const keyWordSearch = async (keyWords) => {
     ON test_img.id = test_word_img.image_id 
     WHERE test_word.key_word IN (?) AND test_word.id = test_word_img.word_id;
     `, wordsList) // the ? param is already passed as an array in mysql2 so we need the extra [] at line 176
+    // console.log(result[0])
     return result[0]
 }
 
