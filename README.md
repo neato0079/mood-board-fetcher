@@ -11,4 +11,5 @@ creates a mood board from a personlized image database
 - Search by keyword
 - ...
 - Add user profiles
-![Screenshot 2023-11-04 at 8 55 13 PM](https://github.com/neato0079/mood-board-fetcher/assets/92897408/e4b13682-2c0e-46d9-b0bf-13f94421abf9)
+
+![Screenshot 2023-11-04 at 8 55 13 PM](https://github.com/neato0079/mood-board-fetcher/assets/92897408/5f69def8-66eb-4c7f-a4eb-c94618349765)
