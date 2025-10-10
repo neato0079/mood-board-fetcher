@@ -1,3 +1,5 @@
+run app with "npm start"
+
 instructions from evan:
 - create image table in mysql
 - write a node script that can add / update / delete from image table
