@@ -4,13 +4,14 @@ const mysql = require('mysql2');
 
 const {
     ART_REF_DB_PASS,
-    USER
+    USER,
+    PASSWORD
 } = process.env;
 
 const pool = mysql.createPool({
     host: '127.0.0.1',
     user: 'root',
-    password: '',
+    password: PASSWORD,
     database: 'art_ref_db'
     // port 3306
 }).promise()

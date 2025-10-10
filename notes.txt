@@ -36,3 +36,12 @@ arrow functions use 'this' differently than normal functions https://stackoverfl
 TODO June:
 how to join more than 2 tables: https://learnsql.com/blog/how-to-join-3-tables-or-more-in-sql/
 allow user to add tags
+
+tail -n 50 /opt/homebrew/var/mysql/matts-MacBook-Air.local.err
+
+mysql path /opt/homebrew/var/mysql
+
+brew link --force --overwrite mysql@8.4
+
+brew services restart mysql
+brew services info mysql
