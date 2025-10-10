@@ -1,12 +1,18 @@
+require('dotenv').config()
+
 const express = require('express');
 const database = require('./database/database');
 // import express from 'express'
 // import * as database from './database/database.js'
+
+const {
+    IMAGE_STORAGE_PATH
+} = process.env;
 const app = express();
 app.set('view engine', 'ejs')
 
 app.use(express.static('public'))
-app.use('/pics', express.static('/Users/mattbot/Pictures/art-ref'));
+app.use('/pics', express.static(IMAGE_STORAGE_PATH));
 app.use(express.json())
 
 app.get('/', async (req, res) => {
