@@ -5,7 +5,7 @@ const sqlite = require('better-sqlite3'); // TODO: install better-sqlite3: https
 const path = require('path'); // docs for path lib: https://nodejs.org/api/path.html
 
 // better-sqlite3 usage: https://github.com/WiseLibs/better-sqlite3?tab=readme-ov-file#usage
-fn = 'placeHolder.db'
+fn = SQLITE_PATH
 const db = new sqlite(path.resolve(fn), {fileMustExist: true}); 
 
 // TODO: Create a sqlite3 file that mirrors our MySQL DB for this app
