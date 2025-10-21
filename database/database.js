@@ -4,25 +4,27 @@ const mysql = require('mysql2');
 const sqlite = require('better-sqlite3'); // TODO: install better-sqlite3: https://github.com/WiseLibs/better-sqlite3?tab=readme-ov-file#installation
 const path = require('path'); // docs for path lib: https://nodejs.org/api/path.html
 
-// better-sqlite3 usage: https://github.com/WiseLibs/better-sqlite3?tab=readme-ov-file#usage
-fn = SQLITE_PATH
-const db = new sqlite(path.resolve(fn), {fileMustExist: true}); 
-
 // TODO: Create a sqlite3 file that mirrors our MySQL DB for this app
 
 const {
     ART_REF_DB_PASS,
     USER,
-    PASSWORD
+    PASSWORD,
+    SQLITE_PATH
 } = process.env;
 
-const pool = mysql.createPool({
-    host: '127.0.0.1',
-    user: 'root',
-    password: PASSWORD,
-    database: 'art_ref_db'
-    // port 3306
-}).promise()
+// better-sqlite3 usage: https://github.com/WiseLibs/better-sqlite3?tab=readme-ov-file#usage
+fn = SQLITE_PATH
+const db = new sqlite(path.resolve(fn), {fileMustExist: true}); 
+
+// SQLite does not require a username and password
+// const pool = mysql.createPool({
+//     host: '127.0.0.1',
+//     user: 'root',
+//     password: PASSWORD,
+//     database: 'art_ref_db'
+//     // port 3306
+// }).promise()
 
 // HELPERS:
 const insert = async (table, column, value) => {
