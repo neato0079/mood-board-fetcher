@@ -297,17 +297,35 @@ const getImagePathByArtist = async (queryArtistName) => {
     return randPaths // returns array of objects
 }
 
+// const getAllArtists = async () => {
+//     const artistListObj = await pool.query(`
+//     SELECT test_artist.artist_name
+//     FROM test_artist;
+//     `)
+//     const artistList = []
+//     for (obj of artistListObj[0]) {
+//         artistList.push(obj.artist_name)
+//     }
+//     return artistList
+// }
+
+// SQLite3 implementation of getAllArtists():
+
 const getAllArtists = async () => {
-    const artistListObj = await pool.query(`
+
+    // -> list[obj]
+    const artistListObj = db.prepare(`
     SELECT test_artist.artist_name
     FROM test_artist;
-    `)
+    `).all()
+
     const artistList = []
-    for (obj of artistListObj[0]) {
+    for (obj of artistListObj) {
         artistList.push(obj.artist_name)
     }
     return artistList
 }
+
 
 const toggleFav = async (id) => {
     console.log('id get ' + id)
