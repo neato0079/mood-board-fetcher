@@ -22,6 +22,7 @@ app.get('/', async (req, res) => {
     })
 })
 
+// TODO: make /random work with SQLite3 
 app.get('/random', async (req, res) => {
     // TODO swap out '3676' with database.length or something
     const image_id = Math.floor(Math.random() * 3676) + 1

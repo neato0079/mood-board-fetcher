@@ -175,7 +175,7 @@ const getFavImage = async () => {
 }
 
 const getImageData = async (id) => {
-    const result = await pool.query(`
+    const statement = db.prepare(`
     SELECT img.id, img.img_name, artist.artist_name, word.key_word, img.view_count, img.file_loc, img.favorite
     FROM   test_img AS img
            JOIN test_ass AS ass 
@@ -187,7 +187,11 @@ const getImageData = async (id) => {
            LEFT JOIN test_word AS word 
            ON word.id = wordimg.word_id
     WHERE img.id = ?;
-    `, id)
+    `)
+    const result = statement.run(id)
+    console.log('result for getImageData():')
+    console.log(result)
+
     // TODO: this only returns data from the main image table. get it to return data from the association tables as well. maybe thats what the JOIN keyword is for?
     return result[0][0]
     /*
