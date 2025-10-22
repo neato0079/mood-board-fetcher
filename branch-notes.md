@@ -47,3 +47,10 @@ test_artist
 test_img
 test_word
 ```
+
+10/22
+- the `.sql` from the `mysqldump` command contained some `CONSTRAINT` statements that were causing errors:
+    ```
+    CONSTRAINT "test_word_img_ibfk_2"
+    ```
+    Idk what `ibfk` is. I don't remember writing this statement when creating the schema for the original `MySQL` db but that was like 3 years ago now. Anyway I deleted the statements that contain these `CONSTRAINT` commands and then re-ran the `./mysql2sqlite` script again, and all the `test...` tables made it into the resulting `SQLite3` compatible `.db` file. I still need to make sure all the existing `SQL` statements in `database.js` work, and that should tell me if there are anymore issues with the `.db` file
