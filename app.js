@@ -151,6 +151,7 @@ app.get('/search', async (req, res) => {
     // res.send({msg:'hello'});
 })
 
+// TODO: update db call to make /toggleFav/ work
 app.get('/toggleFav/:id', async (req, res) => {
     const id = req.params.id
     await database.toggleFav(id)
