@@ -341,21 +341,25 @@ const getAllArtists = async () => {
 
 const toggleFav = async (id) => {
     console.log('id get ' + id)
-    const favQuery = await pool.query(`
+    const statement = db.prepare(`
     SELECT test_img.favorite
     FROM test_img
     WHERE test_img.id = ?;
-    `, id)
+    `)
 
-    const favStatus = favQuery[0][0].favorite // this will be either 1(fav) or 0 (notfav)
+    const favQuery = statement.get(id)
+
+    const favStatus = favQuery.favorite // this will be either 1(fav) or 0 (notfav)
 
     const toggle = 1 - favStatus // this essentially 'flips the switch' on the fav status
 
-    await pool.query(`
-    UPDATE art_ref_db.test_img 
+    const st =  db.prepare(`
+    UPDATE test_img 
     SET favorite = ? 
     WHERE id = ?;
     `, [toggle, id])
+
+    st.run(toggle, id)
 
     console.log(`Image ID ${id} was set to fav status ${toggle}`)
 }

@@ -28,10 +28,14 @@ app.get('/random', async (req, res) => {
     const image_id = Math.floor(Math.random() * 3676) + 1
     const imageURL = await database.getImagePath(image_id)
     const imagesData = await database.getImageData(image_id)
+    let checked = ''
+    if(imagesData.favorite == 1){
+        checked = 'checked'
+    }
     const displayResults = `
     <div class="result-object">
     <a href=${'../pics' + imageURL} target="_blank"><img style="max-width: 900px; max-height: 900px;border-radius: 6px;" src="${'../pics' + imageURL}";data-id=${image_id}></a>
-    <input type="checkbox" id="${'favStatus' + image_id}" class="favStatus" value=${image_id} checked>
+    <input type="checkbox" id="${'favStatus' + image_id}" class="favStatus" value=${image_id} ${checked}>
     <label for="vehicle1">Toggle favorite status</label><br>
     </div>
     `
