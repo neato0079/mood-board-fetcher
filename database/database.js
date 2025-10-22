@@ -155,7 +155,9 @@ const removeImage = async (img_id) => {
 }
 
 const getFavImage = async () => {
-    const favorites = await pool.query(`
+
+    // get array of row objects
+    const favorites = db.prepare(`
     SELECT img.id, artist.artist_name
     FROM   test_img AS img
            JOIN test_ass AS ass 
@@ -167,10 +169,16 @@ const getFavImage = async () => {
            LEFT JOIN test_word AS word 
            ON word.id = wordimg.word_id
     WHERE img.favorite = 1;
-    `)
-    const result = favorites[0][Math.floor(Math.random() * favorites[0].length)]
-    console.log(favorites[0])
-    console.log(favorites[0].length)
+    `).all()
+
+    // given the length of our resulting favorites array, generate a random index
+    const randArrIndex = Math.floor(Math.random() * favorites.length)
+
+    // use that index to assign a row object to our result
+    const result = favorites[randArrIndex]
+    
+    console.log(`\nRandomly chosen favorite:\n\t${JSON.stringify(result)}\n`)
+
     return result.id
 }
 
