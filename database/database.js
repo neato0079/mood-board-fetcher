@@ -338,7 +338,7 @@ const getAllArtists = async () => {
     return artistList
 }
 
-
+// TODO: add comments. this was refactored to work with SQLite3 but idk what is actually happening yet
 const toggleFav = async (id) => {
     console.log('id get ' + id)
     const statement = db.prepare(`
