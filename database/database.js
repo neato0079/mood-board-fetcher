@@ -188,12 +188,12 @@ const getImageData = async (id) => {
            ON word.id = wordimg.word_id
     WHERE img.id = ?;
     `)
-    const result = statement.run(id)
+    const result = statement.get(id)
     console.log('result for getImageData():')
     console.log(result)
 
     // TODO: this only returns data from the main image table. get it to return data from the association tables as well. maybe thats what the JOIN keyword is for?
-    return result[0][0]
+    return result
     /*
     SAMPLE DATA:
     {
