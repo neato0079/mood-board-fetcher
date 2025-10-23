@@ -231,30 +231,38 @@ const fillDatabase = async () => {
 
 const artistSearch = async (artistNames) => {
 
+    // if no artist names are passed, search all artist names
     if(artistNames ==[[""]]){
-        const result = await pool.query(`
+        const result = db.prepare(`
         SELECT test_img.img_name, test_img.file_loc, test_artist.artist_name, test_img.id, test_img.favorite
         FROM test_artist, test_ass
         JOIN test_img
         ON test_img.id = test_ass.image_id 
         WHERE test_artist.artist_name IN (SELECT test_artist.artist_name) AND test_artist.id = test_ass.artist_id;
-        `) // the ? param is already passed as an array in mysql2 so we need the extra [] at namesList
-        return result[0]
+        `).all()
+        console.log(result)
+        return result
     }
     // const namesList = [decodeURI(artistNames).split(',')]
     // console.log(artistNames)
     const roughList = artistNames.split(/,|, /)
-    const namesList = [roughList.map(artistName => artistName.trim())]
+    const namesList = roughList.map(artistName => artistName.trim())
+    const jsonArray = JSON.stringify(namesList);
+    console.log(jsonArray)
     // console.log('namesList ' + JSON.stringify(namesList, 4, null))
     // const test = [['warashi', 'chenrong']]
-    const result = await pool.query(`
+    const statement = db.prepare(`
     SELECT test_img.img_name, test_img.file_loc, test_artist.artist_name, test_img.id, test_img.favorite
     FROM test_artist, test_ass
     JOIN test_img
     ON test_img.id = test_ass.image_id 
-    WHERE test_artist.artist_name IN (?) AND test_artist.id = test_ass.artist_id;
-    `, namesList) // the ? param is already passed as an array in mysql2 so we need the extra [] at namesList
-    return result[0]
+    WHERE test_artist.artist_name IN (SELECT value FROM json_each(?)) AND test_artist.id = test_ass.artist_id;
+    `) 
+
+    const result = statement.all(jsonArray)
+    console.log('result:')
+    console.log(result)
+    return result
 }
 
 
@@ -262,18 +270,19 @@ const artistSearch = async (artistNames) => {
 const keyWordSearch = async (keyWords) => {
     // const namesList = [decodeURI(artistNames).split(',')]
     const roughList = keyWords.split(/,|, /)
-    const wordsList = [roughList.map(keyWord => keyWord.trim())]
+    const wordsList = roughList.map(keyWord => keyWord.trim())
     console.log(wordsList)
     // const test = [['warashi', 'chenrong']]
-    const result = await pool.query(`
+    const statement = db.prepare(`
     SELECT test_img.img_name, test_img.file_loc
     FROM test_word, test_word_img
     JOIN test_img
     ON test_img.id = test_word_img.image_id 
     WHERE test_word.key_word IN (?) AND test_word.id = test_word_img.word_id;
-    `, wordsList) // the ? param is already passed as an array in mysql2 so we need the extra [] at line 176
+    `)
+    const result = statement.all(wordsList) // .run vs .get?
     // console.log(result[0])
-    return result[0]
+    return [null]
 }
 
 // this isnt being used yet because its a wip

@@ -90,9 +90,9 @@ app.get('/getImage/:id', async (req, res) => {
 
     const displayImages = (imagesObj) => {
         let result = ''
-
+        // set checkbox to checked if favorite has a value of 1
         let favStatus = ''
-        if (imagesObj.fav) {
+        if (imagesObj.favorite) {
             console.log('fav: ' + imagesObj.fav)
             favStatus = 'checked'
         }
