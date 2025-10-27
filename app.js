@@ -16,21 +16,26 @@ app.use('/pics', express.static(IMAGE_STORAGE_PATH));
 app.use(express.json())
 
 app.get('/', async (req, res) => {
-    res.render('index.ejs', { 
+    res.render('index.ejs', {
         artistList: await database.getAllArtists(),
-        imageCount: '' 
+        imageCount: ''
     })
 })
 
+// TODO: make /random work with SQLite3 
 app.get('/random', async (req, res) => {
     // TODO swap out '3676' with database.length or something
     const image_id = Math.floor(Math.random() * 3676) + 1
     const imageURL = await database.getImagePath(image_id)
     const imagesData = await database.getImageData(image_id)
+    let checked = ''
+    if (imagesData.favorite == 1) {
+        checked = 'checked'
+    }
     const displayResults = `
     <div class="result-object">
     <a href=${'../pics' + imageURL} target="_blank"><img style="max-width: 900px; max-height: 900px;border-radius: 6px;" src="${'../pics' + imageURL}";data-id=${image_id}></a>
-    <input type="checkbox" id="${'favStatus' + image_id}" class="favStatus" value=${image_id} checked>
+    <input type="checkbox" id="${'favStatus' + image_id}" class="favStatus" value=${image_id} ${checked}>
     <label for="vehicle1">Toggle favorite status</label><br>
     </div>
     `
@@ -40,7 +45,7 @@ app.get('/random', async (req, res) => {
         imagesData: JSON.stringify(imagesData),
         imageID: imagesData.id,
         artistUser: '',
-        imageCount:''
+        imageCount: ''
     })
 })
 
@@ -64,7 +69,7 @@ app.get('/randomFav', async (req, res) => {
         imagesData: JSON.stringify(imagesData),
         imageID: image_id,
         artistUser: '',
-        imageCount:''
+        imageCount: ''
     })
 })
 
@@ -77,9 +82,49 @@ app.get('/getImageData/:id', async (req, res) => {
     res.send(await database.getImageData(id));
 });
 
+
+// TODO: for some reason the broswer is not able to call the js script that is attached to searchPage.js when this URL is called
+app.get('/getImage/:id', async (req, res) => {
+    const id = req.params.id
+    const imagesObj = await database.getImageData(id)
+
+    const displayImages = (imagesObj) => {
+        let result = ''
+        // set checkbox to checked if favorite has a value of 1
+        let favStatus = ''
+        if (imagesObj.favorite) {
+            console.log('fav: ' + imagesObj.fav)
+            favStatus = 'checked'
+        }
+        imagePath = encodeURI(imagesObj.file_loc + '/' + imagesObj.img_name)
+
+        result += `
+            <div class="result-object">
+            <a href=${'../pics' + imagePath} target="_blank"><img style="max-width: 400px; max-height: 900px;border-radius: 6px;" src="${'../pics' + imagePath}";data-id=${imagesObj.img_id}></a>
+            <input type="checkbox" id="${'favStatus' + imagesObj.img_id}" class="favStatus" value=${imagesObj.img_id} ${favStatus}>
+            <label for="vehicle1">Toggle favorite status</label><br>
+            </div>
+            `
+        // console.log(`Images:${image}`)
+        // createInput(image.img_id)
+
+        return result
+    }
+
+    res.render('searchPage.ejs', {
+        displayResults: displayImages(imagesObj),
+        artistList: await database.getAllArtists(),
+        testValue: 'test value',
+        imagesData: JSON.stringify(imagesObj),
+        imageID: id,
+        artistUser: req.query.artistName,
+        imageCount: 1
+    })
+});
+
 app.get('/search', async (req, res) => {
     console.log('Query: ')
-    console.log(JSON.stringify(req.query,4,null))
+    console.log(JSON.stringify(req.query, 4, null))
     console.log('starting search...')
     let imageCount = req.query.count
     let images = await database.getImagePathByArtist(req.query.artistName)
@@ -119,8 +164,8 @@ app.get('/search', async (req, res) => {
         for (let image of imagesObj) {
             console.log(image)
             let favStatus = ''
-            if(image.fav){
-                console.log('fav: '+image.fav)
+            if (image.fav) {
+                console.log('fav: ' + image.fav)
                 favStatus = 'checked'
             }
             imagePath = encodeURI(image.paths)
@@ -150,6 +195,7 @@ app.get('/search', async (req, res) => {
     // res.send({msg:'hello'});
 })
 
+// TODO: update db call to make /toggleFav/ work
 app.get('/toggleFav/:id', async (req, res) => {
     const id = req.params.id
     await database.toggleFav(id)

@@ -1,20 +1,30 @@
 require('dotenv').config()
 const fs = require('fs');
 const mysql = require('mysql2');
+const sqlite = require('better-sqlite3'); // TODO: install better-sqlite3: https://github.com/WiseLibs/better-sqlite3?tab=readme-ov-file#installation
+const path = require('path'); // docs for path lib: https://nodejs.org/api/path.html
+
+// TODO: Create a sqlite3 file that mirrors our MySQL DB for this app
 
 const {
     ART_REF_DB_PASS,
     USER,
-    PASSWORD
+    PASSWORD,
+    SQLITE_PATH
 } = process.env;
 
-const pool = mysql.createPool({
-    host: '127.0.0.1',
-    user: 'root',
-    password: PASSWORD,
-    database: 'art_ref_db'
-    // port 3306
-}).promise()
+// better-sqlite3 usage: https://github.com/WiseLibs/better-sqlite3?tab=readme-ov-file#usage
+fn = SQLITE_PATH
+const db = new sqlite(path.resolve(fn), {fileMustExist: true}); 
+
+// SQLite does not require a username and password
+// const pool = mysql.createPool({
+//     host: '127.0.0.1',
+//     user: 'root',
+//     password: PASSWORD,
+//     database: 'art_ref_db'
+//     // port 3306
+// }).promise()
 
 // HELPERS:
 const insert = async (table, column, value) => {
@@ -145,7 +155,9 @@ const removeImage = async (img_id) => {
 }
 
 const getFavImage = async () => {
-    const favorites = await pool.query(`
+
+    // get array of row objects
+    const favorites = db.prepare(`
     SELECT img.id, artist.artist_name
     FROM   test_img AS img
            JOIN test_ass AS ass 
@@ -157,15 +169,21 @@ const getFavImage = async () => {
            LEFT JOIN test_word AS word 
            ON word.id = wordimg.word_id
     WHERE img.favorite = 1;
-    `)
-    const result = favorites[0][Math.floor(Math.random() * favorites[0].length)]
-    console.log(favorites[0])
-    console.log(favorites[0].length)
+    `).all()
+
+    // given the length of our resulting favorites array, generate a random index
+    const randArrIndex = Math.floor(Math.random() * favorites.length)
+
+    // use that index to assign a row object to our result
+    const result = favorites[randArrIndex]
+    
+    console.log(`\nRandomly chosen favorite:\n\t${JSON.stringify(result)}\n`)
+
     return result.id
 }
 
 const getImageData = async (id) => {
-    const result = await pool.query(`
+    const statement = db.prepare(`
     SELECT img.id, img.img_name, artist.artist_name, word.key_word, img.view_count, img.file_loc, img.favorite
     FROM   test_img AS img
            JOIN test_ass AS ass 
@@ -177,9 +195,13 @@ const getImageData = async (id) => {
            LEFT JOIN test_word AS word 
            ON word.id = wordimg.word_id
     WHERE img.id = ?;
-    `, id)
+    `)
+    const result = statement.get(id)
+    console.log('result for getImageData():')
+    console.log(result)
+
     // TODO: this only returns data from the main image table. get it to return data from the association tables as well. maybe thats what the JOIN keyword is for?
-    return result[0][0]
+    return result
     /*
     SAMPLE DATA:
     {
@@ -209,30 +231,38 @@ const fillDatabase = async () => {
 
 const artistSearch = async (artistNames) => {
 
+    // if no artist names are passed, search all artist names
     if(artistNames ==[[""]]){
-        const result = await pool.query(`
+        const result = db.prepare(`
         SELECT test_img.img_name, test_img.file_loc, test_artist.artist_name, test_img.id, test_img.favorite
         FROM test_artist, test_ass
         JOIN test_img
         ON test_img.id = test_ass.image_id 
         WHERE test_artist.artist_name IN (SELECT test_artist.artist_name) AND test_artist.id = test_ass.artist_id;
-        `) // the ? param is already passed as an array in mysql2 so we need the extra [] at namesList
-        return result[0]
+        `).all()
+        console.log(result)
+        return result
     }
     // const namesList = [decodeURI(artistNames).split(',')]
     // console.log(artistNames)
     const roughList = artistNames.split(/,|, /)
-    const namesList = [roughList.map(artistName => artistName.trim())]
+    const namesList = roughList.map(artistName => artistName.trim())
+    const jsonArray = JSON.stringify(namesList);
+    console.log(jsonArray)
     // console.log('namesList ' + JSON.stringify(namesList, 4, null))
     // const test = [['warashi', 'chenrong']]
-    const result = await pool.query(`
+    const statement = db.prepare(`
     SELECT test_img.img_name, test_img.file_loc, test_artist.artist_name, test_img.id, test_img.favorite
     FROM test_artist, test_ass
     JOIN test_img
     ON test_img.id = test_ass.image_id 
-    WHERE test_artist.artist_name IN (?) AND test_artist.id = test_ass.artist_id;
-    `, namesList) // the ? param is already passed as an array in mysql2 so we need the extra [] at namesList
-    return result[0]
+    WHERE test_artist.artist_name IN (SELECT value FROM json_each(?)) AND test_artist.id = test_ass.artist_id;
+    `) 
+
+    const result = statement.all(jsonArray)
+    console.log('result:')
+    console.log(result)
+    return result
 }
 
 
@@ -240,18 +270,19 @@ const artistSearch = async (artistNames) => {
 const keyWordSearch = async (keyWords) => {
     // const namesList = [decodeURI(artistNames).split(',')]
     const roughList = keyWords.split(/,|, /)
-    const wordsList = [roughList.map(keyWord => keyWord.trim())]
+    const wordsList = roughList.map(keyWord => keyWord.trim())
     console.log(wordsList)
     // const test = [['warashi', 'chenrong']]
-    const result = await pool.query(`
+    const statement = db.prepare(`
     SELECT test_img.img_name, test_img.file_loc
     FROM test_word, test_word_img
     JOIN test_img
     ON test_img.id = test_word_img.image_id 
     WHERE test_word.key_word IN (?) AND test_word.id = test_word_img.word_id;
-    `, wordsList) // the ? param is already passed as an array in mysql2 so we need the extra [] at line 176
+    `)
+    const result = statement.all(wordsList) // .run vs .get?
     // console.log(result[0])
-    return result[0]
+    return [null]
 }
 
 // this isnt being used yet because its a wip
@@ -287,35 +318,57 @@ const getImagePathByArtist = async (queryArtistName) => {
     return randPaths // returns array of objects
 }
 
+// const getAllArtists = async () => {
+//     const artistListObj = await pool.query(`
+//     SELECT test_artist.artist_name
+//     FROM test_artist;
+//     `)
+//     const artistList = []
+//     for (obj of artistListObj[0]) {
+//         artistList.push(obj.artist_name)
+//     }
+//     return artistList
+// }
+
+// SQLite3 implementation of getAllArtists():
+
 const getAllArtists = async () => {
-    const artistListObj = await pool.query(`
+
+    // -> list[obj]
+    const artistListObj = db.prepare(`
     SELECT test_artist.artist_name
     FROM test_artist;
-    `)
+    `).all()
+
     const artistList = []
-    for (obj of artistListObj[0]) {
+    for (obj of artistListObj) {
         artistList.push(obj.artist_name)
     }
     return artistList
 }
 
+// TODO: add comments. this was refactored to work with SQLite3 but idk what is actually happening yet
 const toggleFav = async (id) => {
     console.log('id get ' + id)
-    const favQuery = await pool.query(`
+    const statement = db.prepare(`
     SELECT test_img.favorite
     FROM test_img
     WHERE test_img.id = ?;
-    `, id)
+    `)
 
-    const favStatus = favQuery[0][0].favorite // this will be either 1(fav) or 0 (notfav)
+    const favQuery = statement.get(id)
+
+    const favStatus = favQuery.favorite // this will be either 1(fav) or 0 (notfav)
 
     const toggle = 1 - favStatus // this essentially 'flips the switch' on the fav status
 
-    await pool.query(`
-    UPDATE art_ref_db.test_img 
+    const st =  db.prepare(`
+    UPDATE test_img 
     SET favorite = ? 
     WHERE id = ?;
     `, [toggle, id])
+
+    st.run(toggle, id)
 
     console.log(`Image ID ${id} was set to fav status ${toggle}`)
 }
